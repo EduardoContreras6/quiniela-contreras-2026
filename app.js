@@ -710,16 +710,16 @@ function calcularEstadosAutomaticos(partidos, estadosManual) {
         "Final"
     ];
 
-    partidos.forEach(partido => {
+    const partidosEliminacion = partidos
+        .filter(partido =>
+            fasesEliminacion.includes(partido.fase) &&
+            partido.estado === "finalizado"
+        )
+        .sort((a, b) =>
+            new Date(a.fecha) - new Date(b.fecha)
+        );
 
-        const estadoPartido = partido.estado || "programado";
-
-        if (
-            estadoPartido !== "finalizado" ||
-            !fasesEliminacion.includes(partido.fase)
-        ) {
-            return;
-        }
+    partidosEliminacion.forEach(partido => {
 
         const golesLocal = Number(partido.golesLocal);
         const golesVisitante = Number(partido.golesVisitante);
@@ -737,10 +737,9 @@ function calcularEstadosAutomaticos(partidos, estadosManual) {
             perdedor = partido.local;
         }
 
-        if (!ganador || !perdedor) {
-            return;
-        }
+        if (!ganador || !perdedor) return;
 
+        estados[ganador] = "vivo";
         estados[perdedor] = "eliminado";
 
         if (partido.fase === "Final") {
