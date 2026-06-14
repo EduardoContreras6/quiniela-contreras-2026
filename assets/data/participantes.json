@@ -2,12 +2,12 @@
   {
     "nombre": "Paty",
     "foto": "paty.jpg",
-    "equipos": ["Brasil", "Noruega", "Japon"]
+    "equipos": ["Uruguay", "Argelia", "Jordania"]
   },
   {
     "nombre": "Ester",
     "foto": "ester.jpg",
-    "equipos": ["Argentina", "Panama", "Corea del Sur"]
+    "equipos": ["Brasil", "Bosnia y Herzegovina", "Alemania"]
   },
   {
     "nombre": "Jose",
@@ -17,61 +17,61 @@
   {
     "nombre": "Karla",
     "foto": "karla.jpg",
-    "equipos": ["Francia", "Paraguay", "Tunez"]
+    "equipos": ["Paises Bajos", "Ecuador", "Inglaterra"]
   },
   {
     "nombre": "Sara",
     "foto": "sara.jpg",
-    "equipos": ["España", "Bosnia y Herzegovina", "Marruecos"]
+    "equipos": ["Arabia Saudita", "Curazao", "Pnama"]
   },
   {
     "nombre": "Tavo",
     "foto": "tavo.jpg",
-    "equipos": ["Portugal", "Canada", "Sudafrica"]
+    "equipos": ["España", "Ghana", "Escocia"]
   },
   {
     "nombre": "Cesar",
     "foto": "cesar.jpg",
-    "equipos": ["Alemania", "Egipto", "Escocia"]
+    "equipos": ["Estados Unidos", "Nueva Zelanda", "Turquia"]
   },
   {
     "nombre": "Sara 2",
     "foto": "",
-    "equipos": ["Inglaterra", "Irak", "Curazao"]
+    "equipos": ["Austria", "Corea del Sur", "Egipto"]
   },
   {
     "nombre": "Kati",
     "foto": "kati.jpg",
-    "equipos": ["Uruguay", "Nueva Zelanda", "Turquia"]
+    "equipos": ["Iran", "Colombia", "Sudafrica"]
   },
   {
     "nombre": "Lalo",
     "foto": "lalo.jpg",
-    "equipos": ["Paises Bajos", "Austria", "Haiti"]
+    "equipos": ["Japon", "Francia", "Canada"]
   },
   {
     "nombre": "Sara 3",
     "foto": "",
-    "equipos": ["Colombia", "Argelia", "Republica Checa"]
+    "equipos": ["Costa de Marfil", "Portugal", "Marruecos"]
   },
   {
     "nombre": "Rene",
     "foto": "rene.jpg",
-    "equipos": ["Estados Unidos", "Arabia Saudita", "Costa de Marfil"]
+    "equipos": ["Suecia", "Senegal, "Paraguay"]
   },
   {
     "nombre": "Chemo",
     "foto": "chemo.jpg",
-    "equipos": ["Mexico", "Jordania", "Ecuador"]
+    "equipos": ["Argentina", "Cabo Verde", "Tunez"]
   },
   {
     "nombre": "Angel",
     "foto": "angel.jpg",
-    "equipos": ["Suiza", "Ghana", "Uzbekistan"]
+    "equipos": ["Congo", "Uzbekistan", "Noruega"]
   },
   {
     "nombre": "Maribel",
     "foto": "maribel.jpg",
-    "equipos": ["Iran", "Senegal", "Republica Democratica del Congo"]
+    "equipos": ["Republica Checa", "Haiti", "Irak"]
   }
 ]
