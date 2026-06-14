@@ -49,6 +49,7 @@ const banderas = {
 };
 const rankingContainer = document.getElementById("ranking-container");
 const bracketContainer = document.getElementById("bracket-container");
+const gruposContainer = document.getElementById("grupos-container");
 
 const MONTO_PREMIO = "$1,600";
 let fuentePartidos = "Sin cargar";
@@ -90,7 +91,8 @@ async function cargarParticipantes() {
         estadosManual
     );
 
-    renderizarBracket(partidos, participantes);
+   renderizarFaseGrupos(partidos, participantes);
+   renderizarBracket(partidos, participantes);
 
     participantes.sort((a, b) =>
         a.nombre.localeCompare(
@@ -420,6 +422,109 @@ function crearHTMLProximosPartidos(persona, partidos) {
             <h3>Próximos partidos</h3>
             ${partidosHTML}
         </div>
+    `;
+}
+
+function renderizarFaseGrupos(partidos, participantes) {
+
+    if (!gruposContainer) return;
+
+    const grupos = [
+        "Grupo A",
+        "Grupo B",
+        "Grupo C",
+        "Grupo D",
+        "Grupo E",
+        "Grupo F",
+        "Grupo G",
+        "Grupo H",
+        "Grupo I",
+        "Grupo J",
+        "Grupo K",
+        "Grupo L"
+    ];
+
+    function obtenerDuenoEquipo(equipo) {
+        return participantes.find(persona =>
+            persona.equipos.includes(equipo)
+        );
+    }
+
+    function crearEquipoGrupo(equipo) {
+
+        const dueno = obtenerDuenoEquipo(equipo);
+
+        const fotoDueno = dueno
+            ? (
+                dueno.foto
+                    ? `<img src="assets/fotos/${dueno.foto}" class="grupo-dueno-foto" title="${dueno.nombre}">`
+                    : `<div class="grupo-dueno-foto grupo-dueno-sin-foto" title="${dueno.nombre}">?</div>`
+            )
+            : "";
+
+        return `
+            <div class="grupo-equipo">
+                <span>${banderas[equipo] || "🏳️"} ${equipo}</span>
+                ${fotoDueno}
+            </div>
+        `;
+    }
+
+    function crearPartidoGrupo(partido) {
+
+        const estado = partido.estado || "programado";
+
+        const marcador =
+            estado === "finalizado" || estado === "en-vivo"
+                ? `${partido.golesLocal} - ${partido.golesVisitante}`
+                : "vs";
+
+        const textoEstado = estado
+            .replace("-", " ")
+            .toUpperCase();
+
+        return `
+            <div class="grupo-partido">
+
+                ${crearEquipoGrupo(partido.local)}
+
+                <div class="grupo-marcador">${marcador}</div>
+
+                ${crearEquipoGrupo(partido.visitante)}
+
+                <div class="grupo-fecha">
+                    📅 ${formatearFechaPartido(partido.fecha)}
+                </div>
+
+                <div class="estado-partido ${estado}">
+                    ${textoEstado}
+                </div>
+
+            </div>
+        `;
+    }
+
+    const htmlGrupos = grupos
+        .map(grupo => {
+
+            const partidosGrupo = partidos
+                .filter(partido => partido.fase === grupo)
+                .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+
+            if (partidosGrupo.length === 0) return "";
+
+            return `
+                <div class="grupo-card">
+                    <h3>${grupo}</h3>
+                    ${partidosGrupo.map(crearPartidoGrupo).join("")}
+                </div>
+            `;
+
+        })
+        .join("");
+
+    gruposContainer.innerHTML = htmlGrupos || `
+        <p>No hay partidos de fase de grupos cargados todavía.</p>
     `;
 }
 
