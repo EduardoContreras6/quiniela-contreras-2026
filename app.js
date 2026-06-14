@@ -224,7 +224,59 @@ const ranking = [...participantes].sort((a, b) => {
         rankingContainer.appendChild(item);
 
     });
+
+    actualizarPodio(ranking, campeon);
     
+}
+
+function actualizarPodio(ranking, campeon) {
+
+    const primero = ranking[0];
+    const segundo = ranking[1];
+    const tercero = ranking[2];
+
+    function crearPodioCard(persona, posicion, etiqueta) {
+
+        if (!persona) {
+            return `
+                <div class="podio-card">
+                    <div class="medalla">${posicion}</div>
+                    <p>Pendiente</p>
+                </div>
+            `;
+        }
+
+        const foto = persona.foto
+            ? `<img src="assets/fotos/${persona.foto}" class="podio-avatar">`
+            : `<div class="podio-avatar podio-sin-foto">?</div>`;
+
+        const textoEstado = persona.tieneCampeon
+            ? `🏆 Tiene a ${campeon}`
+            : `🟢 ${persona.equiposVivos} equipos vivos`;
+
+        return `
+            <div class="podio-card">
+                <div class="medalla">${posicion}</div>
+
+                ${foto}
+
+                <h3>${persona.nombre}</h3>
+
+                <p>${textoEstado}</p>
+
+                <small>${etiqueta}</small>
+            </div>
+        `;
+    }
+
+    document.getElementById("primero").innerHTML =
+        crearPodioCard(primero, "🥇", campeon ? "Ganador actual" : "Primer lugar provisional");
+
+    document.getElementById("segundo").innerHTML =
+        crearPodioCard(segundo, "🥈", "Segundo lugar");
+
+    document.getElementById("tercero").innerHTML =
+        crearPodioCard(tercero, "🥉", "Tercer lugar");
 }
 
 cargarParticipantes();
