@@ -1,32 +1,122 @@
 [
-    {
-        "local": "Mexico",
-        "visitante": "Corea del Sur",
-        "fecha": "2026-06-18T19:00:00-06:00",
-        "fase": "Grupo A"
-    },
-    {
-        "local": "Brasil",
-        "visitante": "Haiti",
-        "fecha": "2026-06-19T18:30:00-06:00",
-        "fase": "Grupo C"
-    },
-    {
-        "local": "Argentina",
-        "visitante": "Austria",
-        "fecha": "2026-06-22T11:00:00-06:00",
-        "fase": "Grupo J"
-    },
-    {
-        "local": "Francia",
-        "visitante": "Irak",
-        "fecha": "2026-06-22T15:00:00-06:00",
-        "fase": "Grupo I"
-    },
-    {
-        "local": "España",
-        "visitante": "Arabia Saudita",
-        "fecha": "2026-06-21T10:00:00-06:00",
-        "fase": "Grupo H"
-    }
+  {
+    "local": "Alemania",
+    "visitante": "Curazao",
+    "fecha": "2026-06-14T11:00:00-06:00",
+    "fase": "Grupo E"
+  },
+  {
+    "local": "Paises Bajos",
+    "visitante": "Japon",
+    "fecha": "2026-06-14T14:00:00-06:00",
+    "fase": "Grupo F"
+  },
+  {
+    "local": "Costa de Marfil",
+    "visitante": "Ecuador",
+    "fecha": "2026-06-14T17:00:00-06:00",
+    "fase": "Grupo E"
+  },
+  {
+    "local": "Suecia",
+    "visitante": "Tunez",
+    "fecha": "2026-06-14T20:00:00-06:00",
+    "fase": "Grupo F"
+  },
+  {
+    "local": "España",
+    "visitante": "Cabo Verde",
+    "fecha": "2026-06-15T10:00:00-06:00",
+    "fase": "Grupo H"
+  },
+  {
+    "local": "Belgica",
+    "visitante": "Egipto",
+    "fecha": "2026-06-15T13:00:00-06:00",
+    "fase": "Grupo G"
+  },
+  {
+    "local": "Arabia Saudita",
+    "visitante": "Uruguay",
+    "fecha": "2026-06-15T16:00:00-06:00",
+    "fase": "Grupo H"
+  },
+  {
+    "local": "Iran",
+    "visitante": "Nueva Zelanda",
+    "fecha": "2026-06-15T19:00:00-06:00",
+    "fase": "Grupo G"
+  },
+  {
+    "local": "Francia",
+    "visitante": "Senegal",
+    "fecha": "2026-06-16T13:00:00-06:00",
+    "fase": "Grupo I"
+  },
+  {
+    "local": "Irak",
+    "visitante": "Noruega",
+    "fecha": "2026-06-16T16:00:00-06:00",
+    "fase": "Grupo I"
+  },
+  {
+    "local": "Argentina",
+    "visitante": "Argelia",
+    "fecha": "2026-06-16T19:00:00-06:00",
+    "fase": "Grupo J"
+  },
+  {
+    "local": "Austria",
+    "visitante": "Jordania",
+    "fecha": "2026-06-16T22:00:00-06:00",
+    "fase": "Grupo J"
+  },
+  {
+    "local": "Portugal",
+    "visitante": "Republica Democratica del Congo",
+    "fecha": "2026-06-17T11:00:00-06:00",
+    "fase": "Grupo K"
+  },
+  {
+    "local": "Inglaterra",
+    "visitante": "Croacia",
+    "fecha": "2026-06-17T14:00:00-06:00",
+    "fase": "Grupo L"
+  },
+  {
+    "local": "Ghana",
+    "visitante": "Panama",
+    "fecha": "2026-06-17T17:00:00-06:00",
+    "fase": "Grupo L"
+  },
+  {
+    "local": "Uzbekistan",
+    "visitante": "Colombia",
+    "fecha": "2026-06-17T20:00:00-06:00",
+    "fase": "Grupo K"
+  },
+  {
+    "local": "Republica Checa",
+    "visitante": "Sudafrica",
+    "fecha": "2026-06-18T10:00:00-06:00",
+    "fase": "Grupo A"
+  },
+  {
+    "local": "Suiza",
+    "visitante": "Bosnia y Herzegovina",
+    "fecha": "2026-06-18T13:00:00-06:00",
+    "fase": "Grupo B"
+  },
+  {
+    "local": "Canada",
+    "visitante": "Qatar",
+    "fecha": "2026-06-18T16:00:00-06:00",
+    "fase": "Grupo B"
+  },
+  {
+    "local": "Mexico",
+    "visitante": "Corea del Sur",
+    "fecha": "2026-06-18T19:00:00-06:00",
+    "fase": "Grupo A"
+  }
 ]
