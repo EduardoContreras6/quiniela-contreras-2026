@@ -49,6 +49,8 @@ const banderas = {
 };
 const rankingContainer = document.getElementById("ranking-container");
 
+const MONTO_PREMIO = "$1,600";
+
 function actualizarContador() {
 
     const fechaFinal = new Date("2026-07-19T18:00:00");
@@ -125,8 +127,8 @@ participantes.forEach(participante => {
 
 });
 
-document.getElementById("equipos-vivos").textContent =
-    totalEquipos;
+document.getElementById("monto-premio").textContent =
+    MONTO_PREMIO;;
 
 document.getElementById("equipos-eliminados").textContent =
     equiposVivos;
