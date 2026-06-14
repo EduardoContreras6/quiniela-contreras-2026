@@ -302,7 +302,7 @@ item.innerHTML = `
 
     });
 
-    actualizarPodio(ranking, campeon);
+    actualizarPodio(ranking, campeon, subcampeon, tercerLugar);
     
 }
 
