@@ -1047,16 +1047,18 @@ body{
 }
 
 /* Líneas de conexión */
+/* Líneas de conexión más precisas */
 
 .bracket-connector-in,
 .bracket-connector-out{
     position:absolute;
     top:50%;
-    width:var(--gap-x);
     height:2px;
+    width:var(--gap-x);
     background:var(--line-color);
     transform:translateY(-50%);
     pointer-events:none;
+    z-index:0;
 }
 
 .bracket-connector-vertical{
@@ -1066,54 +1068,67 @@ body{
     background:var(--line-color);
     transform:translateY(-50%);
     pointer-events:none;
+    z-index:0;
 }
 
+/* Lado izquierdo: avanza hacia la derecha */
+
 .knockout-left .bracket-connector-out{
-    right:calc(var(--gap-x) * -1);
+    left:100%;
 }
 
 .knockout-left .bracket-connector-in{
-    left:calc(var(--gap-x) * -1);
+    right:100%;
 }
 
 .knockout-left .bracket-connector-vertical{
-    left:calc(var(--gap-x) * -1);
+    right:100%;
 }
 
+/* Lado derecho: avanza hacia la izquierda */
+
 .knockout-right .bracket-connector-out{
-    left:calc(var(--gap-x) * -1);
+    right:100%;
 }
 
 .knockout-right .bracket-connector-in{
-    right:calc(var(--gap-x) * -1);
+    left:100%;
 }
 
 .knockout-right .bracket-connector-vertical{
-    right:calc(var(--gap-x) * -1);
+    left:100%;
 }
+
+/* En 1/16 no hay línea de entrada ni línea vertical */
 
 .ronda-32 .bracket-connector-in,
 .ronda-32 .bracket-connector-vertical{
     display:none;
 }
 
+/* Alturas proporcionales a la separación real */
+
 .ronda-16 .bracket-connector-vertical{
-    height:140px;
+    height:calc(var(--row-h) * 2);
 }
 
 .ronda-8 .bracket-connector-vertical{
-    height:280px;
+    height:calc(var(--row-h) * 4);
 }
 
 .ronda-4 .bracket-connector-vertical{
-    height:560px;
+    height:calc(var(--row-h) * 8);
 }
+
+/* La final no usa los conectores internos normales */
 
 .knockout-center .bracket-connector-in,
 .knockout-center .bracket-connector-out,
 .knockout-center .bracket-connector-vertical{
     display:none;
 }
+
+/* Líneas de semifinales hacia la final */
 
 .final-card::before,
 .final-card::after{
@@ -1124,18 +1139,15 @@ body{
     height:2px;
     background:var(--line-color);
     transform:translateY(-50%);
+    pointer-events:none;
 }
 
 .final-card::before{
-    left:calc(var(--gap-x) * -1);
+    right:100%;
 }
 
 .final-card::after{
-    right:calc(var(--gap-x) * -1);
-}
-
-.tercer-lugar-card{
-    background:#1a202c;
+    left:100%;
 }
 
 @media(max-width:768px){
@@ -1172,18 +1184,6 @@ body{
     .bracket-meta{
         font-size:.62rem;
     }
-
-    .ronda-16 .bracket-connector-vertical{
-        height:132px;
-    }
-
-    .ronda-8 .bracket-connector-vertical{
-        height:264px;
-    }
-
-    .ronda-4 .bracket-connector-vertical{
-        height:528px;
-    }
 }
 @media(max-width:768px){
     .logo{
@@ -1192,4 +1192,12 @@ body{
 }
 .third-place-title{
     margin-top:6px;
+}
+.bracket-match{
+    z-index:2;
+}
+
+.bracket-match::before,
+.bracket-match::after{
+    z-index:0;
 }
