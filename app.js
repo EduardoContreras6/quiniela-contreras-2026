@@ -401,3 +401,21 @@ document
             "none";
 
 });
+
+document
+    .getElementById("modal")
+    .addEventListener("click", (event) => {
+
+        if (event.target.id === "modal") {
+            document.getElementById("modal").style.display = "none";
+        }
+
+    });
+
+document.addEventListener("keydown", (event) => {
+
+    if (event.key === "Escape") {
+        document.getElementById("modal").style.display = "none";
+    }
+
+});
