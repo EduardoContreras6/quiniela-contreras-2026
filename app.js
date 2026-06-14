@@ -50,6 +50,25 @@ const banderas = {
 };
 const rankingContainer = document.getElementById("ranking-container");
 
+function actualizarContador() {
+
+    const fechaFinal = new Date("2026-07-19T18:00:00");
+
+    const ahora = new Date();
+
+    const diferencia = fechaFinal - ahora;
+
+    const dias = Math.floor(
+        diferencia / (1000 * 60 * 60 * 24)
+    );
+
+    document.getElementById(
+        "contador-final"
+    ).textContent = dias;
+}
+
+actualizarContador();
+
 async function cargarParticipantes() {
 
     const response = await fetch("assets/data/participantes.json");
@@ -134,9 +153,7 @@ async function cargarParticipantes() {
         rankingContainer.appendChild(item);
 
     });
-
-    document.getElementById("lider-actual").textContent =
-        ranking[0].nombre;
+    
 }
 
 cargarParticipantes();
