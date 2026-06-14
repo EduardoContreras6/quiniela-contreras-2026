@@ -427,10 +427,145 @@ function renderizarBracket(partidos, participantes) {
 
     if (!bracketContainer) return;
 
+    const fasesKnockout = [
+        "Dieciseisavos",
+        "Octavos",
+        "Cuartos",
+        "Semifinales",
+        "Final",
+        "Tercer lugar"
+    ];
+
+    const partidosKnockout = partidos
+        .filter(partido => fasesKnockout.includes(partido.fase))
+        .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+
     function obtenerDuenoEquipo(equipo) {
-    return participantes.find(persona =>
-        persona.equipos.includes(equipo)
-    );
+        return participantes.find(persona =>
+            persona.equipos.includes(equipo)
+        );
+    }
+
+    function crearEquipoHTML(equipo) {
+
+        const dueno = obtenerDuenoEquipo(equipo);
+
+        const fotoDueno = dueno
+            ? (
+                dueno.foto
+                    ? `<img src="assets/fotos/${dueno.foto}" class="bracket-owner-photo" title="${dueno.nombre}">`
+                    : `<div class="bracket-owner-photo bracket-owner-empty" title="${dueno.nombre}">?</div>`
+            )
+            : `<div class="bracket-owner-photo bracket-owner-empty">-</div>`;
+
+        return `
+            <div class="bracket-team">
+                <div class="bracket-team-main">
+                    <span class="bracket-team-flag">${banderas[equipo] || "🏳️"}</span>
+                    <span class="bracket-team-name">${equipo}</span>
+                </div>
+                ${fotoDueno}
+            </div>
+        `;
+    }
+
+    function crearMatchHTML(partido) {
+
+        const estado = partido.estado || "programado";
+
+        const marcador =
+            estado === "finalizado" || estado === "en-vivo"
+                ? `${partido.golesLocal} - ${partido.golesVisitante}`
+                : "vs";
+
+        return `
+            <div class="bracket-match">
+                ${crearEquipoHTML(partido.local)}
+                <div class="bracket-score">${marcador}</div>
+                ${crearEquipoHTML(partido.visitante)}
+                <div class="bracket-meta">
+                    <div>📅 ${formatearFechaPartido(partido.fecha)}</div>
+                    <div class="bracket-phase-status ${estado}">${estado.replace("-", " ").toUpperCase()}</div>
+                </div>
+            </div>
+        `;
+    }
+
+    const dieciseisavos = partidosKnockout.filter(p => p.fase === "Dieciseisavos");
+    const octavos = partidosKnockout.filter(p => p.fase === "Octavos");
+    const cuartos = partidosKnockout.filter(p => p.fase === "Cuartos");
+    const semifinales = partidosKnockout.filter(p => p.fase === "Semifinales");
+    const final = partidosKnockout.filter(p => p.fase === "Final");
+    const tercerLugar = partidosKnockout.filter(p => p.fase === "Tercer lugar");
+
+    const mitadDieciseisavos = Math.ceil(dieciseisavos.length / 2);
+    const mitadOctavos = Math.ceil(octavos.length / 2);
+    const mitadCuartos = Math.ceil(cuartos.length / 2);
+    const mitadSemis = Math.ceil(semifinales.length / 2);
+
+    const izquierda = {
+        dieciseisavos: dieciseisavos.slice(0, mitadDieciseisavos),
+        octavos: octavos.slice(0, mitadOctavos),
+        cuartos: cuartos.slice(0, mitadCuartos),
+        semifinales: semifinales.slice(0, mitadSemis)
+    };
+
+    const derecha = {
+        dieciseisavos: dieciseisavos.slice(mitadDieciseisavos),
+        octavos: octavos.slice(mitadOctavos),
+        cuartos: cuartos.slice(mitadCuartos),
+        semifinales: semifinales.slice(mitadSemis)
+    };
+
+    function crearColumna(titulo, partidosFase) {
+        return `
+            <div class="bracket-column">
+                <h3>${titulo}</h3>
+                ${partidosFase.length
+                    ? partidosFase.map(crearMatchHTML).join("")
+                    : `<div class="bracket-empty">Sin partidos definidos</div>`
+                }
+            </div>
+        `;
+    }
+
+    bracketContainer.innerHTML = `
+        <div class="bracket-scroll">
+
+            <div class="bracket-side left-side">
+                ${crearColumna("1/16 de final", izquierda.dieciseisavos)}
+                ${crearColumna("Octavos", izquierda.octavos)}
+                ${crearColumna("Cuartos", izquierda.cuartos)}
+                ${crearColumna("Semifinal", izquierda.semifinales)}
+            </div>
+
+            <div class="bracket-center">
+                <div class="bracket-center-block">
+                    <h3>Final</h3>
+                    ${final.length
+                        ? final.map(crearMatchHTML).join("")
+                        : `<div class="bracket-empty">Final pendiente</div>`
+                    }
+                </div>
+
+                <div class="bracket-center-block third-place-block">
+                    <h3>Tercer lugar</h3>
+                    ${tercerLugar.length
+                        ? tercerLugar.map(crearMatchHTML).join("")
+                        : `<div class="bracket-empty">Tercer lugar pendiente</div>`
+                    }
+                </div>
+            </div>
+
+            <div class="bracket-side right-side">
+                ${crearColumna("Semifinal", derecha.semifinales)}
+                ${crearColumna("Cuartos", derecha.cuartos)}
+                ${crearColumna("Octavos", derecha.octavos)}
+                ${crearColumna("1/16 de final", derecha.dieciseisavos)}
+            </div>
+
+        </div>
+    `;
 }
 
 function crearEquipoBracket(equipo) {
