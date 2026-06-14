@@ -88,19 +88,65 @@ async function cargarParticipantes() {
     document.getElementById("participantes-count").textContent =
         participantes.length;
 
-    let totalEquipos = 0;
+let totalEquipos = 0;
+let equiposVivos = 0;
+let equiposEliminados = 0;
+let campeon = null;
 
-    participantes.forEach(participante => {
-        totalEquipos += participante.equipos.length;
+participantes.forEach(participante => {
+
+    let vivosPersona = 0;
+    let tieneCampeon = false;
+
+    participante.equipos.forEach(equipo => {
+
+        totalEquipos++;
+
+        const estado = estados[equipo] || "vivo";
+
+        if (estado === "vivo") {
+            equiposVivos++;
+            vivosPersona++;
+        }
+
+        if (estado === "eliminado") {
+            equiposEliminados++;
+        }
+
+        if (estado === "campeon") {
+            campeon = equipo;
+            tieneCampeon = true;
+        }
+
     });
 
-    document.getElementById("equipos-vivos").textContent =
-        totalEquipos;
+    participante.equiposVivos = vivosPersona;
+    participante.tieneCampeon = tieneCampeon;
 
-    document.getElementById("equipos-eliminados").textContent =
-        0;
+});
 
-    const ranking = [...participantes];
+document.getElementById("equipos-vivos").textContent =
+    totalEquipos;
+
+document.getElementById("equipos-eliminados").textContent =
+    equiposVivos;
+
+const ranking = [...participantes].sort((a, b) => {
+
+    if (a.tieneCampeon && !b.tieneCampeon) return -1;
+    if (!a.tieneCampeon && b.tieneCampeon) return 1;
+
+    if (b.equiposVivos !== a.equiposVivos) {
+        return b.equiposVivos - a.equiposVivos;
+    }
+
+    return a.nombre.localeCompare(
+        b.nombre,
+        "es",
+        { sensitivity: "base" }
+    );
+
+});
 
     ranking.forEach((persona, index) => {
 
@@ -125,7 +171,9 @@ async function cargarParticipantes() {
 
                     <div>${persona.nombre}</div>
 
-                    <small>⚽ ${persona.equipos.length} equipos</small>
+                    <small>
+                        ${persona.tieneCampeon ? "🏆 Campeón de la quiniela" : `🟢 ${persona.equiposVivos} vivos / ⚽ ${persona.equipos.length} equipos`}
+                    </small>
 
                 </div>
 
