@@ -477,3 +477,49 @@ body{
     border-color:#f59e0b;
     background:#78350f;
 }
+
+.proximos-partidos{
+    margin-top:22px;
+    text-align:left;
+}
+
+.proximos-partidos h3{
+    margin-bottom:12px;
+    text-align:center;
+}
+
+.proximo-partido{
+    background:#0d1117;
+    border:1px solid #374151;
+    border-radius:14px;
+    padding:12px;
+    margin-bottom:10px;
+}
+
+.partido-equipos{
+    font-weight:700;
+    font-size:.95rem;
+    margin-bottom:6px;
+}
+
+.partido-equipos span{
+    opacity:.7;
+    margin:0 6px;
+}
+
+.partido-detalle{
+    font-size:.85rem;
+    opacity:.9;
+    margin-bottom:4px;
+}
+
+.partido-fase{
+    font-size:.75rem;
+    opacity:.65;
+}
+
+.sin-partidos{
+    text-align:center;
+    opacity:.75;
+    font-size:.9rem;
+}
