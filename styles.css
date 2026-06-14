@@ -120,8 +120,53 @@ body{
         font-size:2rem;
     }
 
+    .dashboard,
+    .ranking,
+    .bracket,
+    .podio{
+        padding:18px;
+    }
+
     .podio-grid{
-        grid-template-columns:1fr;
+        display:grid;
+        grid-template-columns:repeat(3,minmax(105px,1fr));
+        gap:10px;
+        overflow-x:auto;
+    }
+
+    .podio-card{
+        padding:12px;
+        min-height:170px;
+    }
+
+    .medalla{
+        font-size:1.6rem;
+        margin-bottom:6px;
+    }
+
+    .podio-avatar{
+        width:58px;
+        height:58px;
+        margin-bottom:8px;
+    }
+
+    .podio-card h3{
+        font-size:.9rem;
+        margin-bottom:5px;
+    }
+
+    .podio-card p{
+        font-size:.7rem;
+        margin-bottom:4px;
+    }
+
+    .podio-card small{
+        font-size:.65rem;
+    }
+
+    .collapsible-section summary{
+        font-size:1.1rem;
+        padding:15px;
     }
 
 }
@@ -279,4 +324,34 @@ body{
 
 .podio-card small{
     opacity:.75;
+}
+.collapsible-section{
+    background:#0d1117;
+}
+
+.collapsible-section summary{
+    list-style:none;
+    cursor:pointer;
+    background:#161b22;
+    border:1px solid #374151;
+    border-radius:16px;
+    padding:18px 20px;
+    font-size:1.4rem;
+    font-weight:700;
+    margin-bottom:20px;
+}
+
+.collapsible-section summary::-webkit-details-marker{
+    display:none;
+}
+
+.collapsible-section summary::after{
+    content:" ▼";
+    float:right;
+    font-size:1rem;
+    opacity:.8;
+}
+
+.collapsible-section[open] summary::after{
+    content:" ▲";
 }
