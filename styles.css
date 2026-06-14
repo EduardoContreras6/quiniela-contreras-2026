@@ -151,3 +151,18 @@ body{
     margin-top:15px;
     font-size:.95rem;
 }
+
+.equipo.vivo{
+    background:#14532d;
+    border-color:#22c55e;
+}
+
+.equipo.eliminado{
+    background:#7f1d1d;
+    border-color:#ef4444;
+}
+
+.equipo.campeon{
+    background:#78350f;
+    border-color:#f59e0b;
+}
