@@ -79,8 +79,15 @@ async function cargarParticipantes() {
     const response = await fetch("assets/data/participantes.json");
     const participantes = await response.json();
     const estadosResponse = await fetch("assets/data/estados.json");
-    const estados = await estadosResponse.json();
+    const estadosManual = await estadosResponse.json();
+
     const partidos = await cargarPartidosAutomaticos();
+
+    const estados = calcularEstadosAutomaticos(
+        partidos,
+        estadosManual
+    );
+
     renderizarBracket(partidos, participantes);
 
     participantes.sort((a, b) =>
@@ -688,6 +695,61 @@ async function cargarPartidosAutomaticos() {
         const partidosResponse = await fetch("assets/data/partidos.json");
         return await partidosResponse.json();
     }
+}
+
+function calcularEstadosAutomaticos(partidos, estadosManual) {
+
+    const estados = { ...estadosManual };
+
+    const fasesEliminacion = [
+        "Dieciseisavos",
+        "Octavos",
+        "Cuartos",
+        "Semifinales",
+        "Tercer lugar",
+        "Final"
+    ];
+
+    partidos.forEach(partido => {
+
+        const estadoPartido = partido.estado || "programado";
+
+        if (
+            estadoPartido !== "finalizado" ||
+            !fasesEliminacion.includes(partido.fase)
+        ) {
+            return;
+        }
+
+        const golesLocal = Number(partido.golesLocal);
+        const golesVisitante = Number(partido.golesVisitante);
+
+        let ganador = null;
+        let perdedor = null;
+
+        if (golesLocal > golesVisitante) {
+            ganador = partido.local;
+            perdedor = partido.visitante;
+        }
+
+        if (golesVisitante > golesLocal) {
+            ganador = partido.visitante;
+            perdedor = partido.local;
+        }
+
+        if (!ganador || !perdedor) {
+            return;
+        }
+
+        estados[perdedor] = "eliminado";
+
+        if (partido.fase === "Final") {
+            estados[ganador] = "campeon";
+        }
+
+    });
+
+    return estados;
 }
 
 cargarParticipantes().catch(error => {
