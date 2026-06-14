@@ -72,6 +72,8 @@ async function cargarParticipantes() {
 
     const response = await fetch("assets/data/participantes.json");
     const participantes = await response.json();
+    const estadosResponse = await fetch("assets/data/estados.json");
+    const estados = await estadosResponse.json();
 
     participantes.sort((a, b) =>
         a.nombre.localeCompare(
@@ -137,13 +139,19 @@ async function cargarParticipantes() {
                        style="width:120px;height:120px;border-radius:50%;object-fit:cover;">`
                 : "";
 
-            const equipos = persona.equipos
-                .map(e =>
-                    `<div class="equipo">
-                        ${banderas[e] || "🏳️"} ${e}
-                    </div>`
-                )
-                .join("");
+                const equipos = persona.equipos
+                    .map(e => {
+
+                        const estado = estados[e] || "vivo";
+
+                        return `
+                            <div class="equipo ${estado}">
+                                ${banderas[e] || "🏳️"} ${e}
+                            </div>
+                        `;
+
+                    })
+                    .join("");
 
             document.getElementById("modal-body").innerHTML = `
                 <div style="text-align:center">
