@@ -1,4 +1,3 @@
-const participantesContainer = document.getElementById("participantes-container");
 const banderas = {
     "Argentina": "🇦🇷",
     "Arabia Saudita": "🇸🇦",
@@ -82,7 +81,6 @@ async function cargarParticipantes() {
         )
     );
 
-    participantesContainer.innerHTML = "";
     rankingContainer.innerHTML = "";
 
     document.getElementById("participantes-count").textContent =
@@ -91,43 +89,7 @@ async function cargarParticipantes() {
     let totalEquipos = 0;
 
     participantes.forEach(participante => {
-
         totalEquipos += participante.equipos.length;
-
-        const card = document.createElement("div");
-        card.className = "participante-card";
-
-        const fotoHTML = participante.foto
-            ? `<img src="assets/fotos/${participante.foto}" alt="${participante.nombre}">`
-            : `<div class="sin-foto">Sin Foto</div>`;
-
-        const equiposHTML = participante.equipos
-            .map(equipo => `
-                <div class="equipo vivo">
-                    ${banderas[equipo] || "🏳️"} ${equipo}
-                </div>
-            `)
-            .join("");
-
-        card.innerHTML = `
-            ${fotoHTML}
-
-            <div class="participante-info">
-
-                <h3>${participante.nombre}</h3>
-
-                ${equiposHTML}
-
-                <p>
-                    <strong>Total equipos:</strong>
-                    ${participante.equipos.length}
-                </p>
-
-            </div>
-        `;
-
-        participantesContainer.appendChild(card);
-
     });
 
     document.getElementById("equipos-vivos").textContent =
