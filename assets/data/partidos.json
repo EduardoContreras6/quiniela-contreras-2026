@@ -3,129 +3,180 @@
     "local": "Alemania",
     "visitante": "Curazao",
     "fecha": "2026-06-14T11:00:00-06:00",
-    "fase": "Grupo E"
+    "fase": "Grupo E",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "Paises Bajos",
     "visitante": "Japon",
     "fecha": "2026-06-14T14:00:00-06:00",
-    "fase": "Grupo F"
+    "fase": "Grupo F",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "Costa de Marfil",
     "visitante": "Ecuador",
     "fecha": "2026-06-14T17:00:00-06:00",
-    "fase": "Grupo E"
+    "fase": "Grupo E",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "Suecia",
     "visitante": "Tunez",
     "fecha": "2026-06-14T20:00:00-06:00",
-    "fase": "Grupo F"
+    "fase": "Grupo F",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "España",
     "visitante": "Cabo Verde",
     "fecha": "2026-06-15T10:00:00-06:00",
-    "fase": "Grupo H"
+    "fase": "Grupo H",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "Belgica",
     "visitante": "Egipto",
     "fecha": "2026-06-15T13:00:00-06:00",
-    "fase": "Grupo G"
+    "fase": "Grupo G",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "Arabia Saudita",
     "visitante": "Uruguay",
     "fecha": "2026-06-15T16:00:00-06:00",
-    "fase": "Grupo H"
+    "fase": "Grupo H",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "Iran",
     "visitante": "Nueva Zelanda",
     "fecha": "2026-06-15T19:00:00-06:00",
-    "fase": "Grupo G"
+    "fase": "Grupo G",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "Francia",
     "visitante": "Senegal",
     "fecha": "2026-06-16T13:00:00-06:00",
-    "fase": "Grupo I"
+    "fase": "Grupo I",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "Irak",
     "visitante": "Noruega",
     "fecha": "2026-06-16T16:00:00-06:00",
-    "fase": "Grupo I"
+    "fase": "Grupo I",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "Argentina",
     "visitante": "Argelia",
     "fecha": "2026-06-16T19:00:00-06:00",
-    "fase": "Grupo J"
+    "fase": "Grupo J",
+    "estado": "en-vivo",
+    "golesLocal": 1,
+    "golesVisitante": 0
   },
   {
     "local": "Austria",
     "visitante": "Jordania",
     "fecha": "2026-06-16T22:00:00-06:00",
-    "fase": "Grupo J"
+    "fase": "Grupo J",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "Portugal",
     "visitante": "Republica Democratica del Congo",
     "fecha": "2026-06-17T11:00:00-06:00",
-    "fase": "Grupo K"
+    "fase": "Grupo K",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "Inglaterra",
     "visitante": "Croacia",
     "fecha": "2026-06-17T14:00:00-06:00",
-    "fase": "Grupo L"
+    "fase": "Grupo L",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "Ghana",
     "visitante": "Panama",
     "fecha": "2026-06-17T17:00:00-06:00",
-    "fase": "Grupo L"
+    "fase": "Grupo L",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "Uzbekistan",
     "visitante": "Colombia",
     "fecha": "2026-06-17T20:00:00-06:00",
-    "fase": "Grupo K"
+    "fase": "Grupo K",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "Republica Checa",
     "visitante": "Sudafrica",
     "fecha": "2026-06-18T10:00:00-06:00",
-    "fase": "Grupo A"
+    "fase": "Grupo A",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "Suiza",
     "visitante": "Bosnia y Herzegovina",
     "fecha": "2026-06-18T13:00:00-06:00",
-    "fase": "Grupo B"
+    "fase": "Grupo B",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "Canada",
     "visitante": "Qatar",
     "fecha": "2026-06-18T16:00:00-06:00",
-    "fase": "Grupo B"
+    "fase": "Grupo B",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
   },
   {
     "local": "Mexico",
     "visitante": "Corea del Sur",
     "fecha": "2026-06-18T19:00:00-06:00",
-    "fase": "Grupo A"
-  },
-  {
-  "local": "Argentina",
-  "visitante": "Argelia",
-  "fecha": "2026-06-16T19:00:00-06:00",
-  "fase": "Grupo J",
-  "estado": "en-vivo",
-  "golesLocal": 1,
-  "golesVisitante": 0
-}
+    "fase": "Grupo A",
+    "estado": "programado",
+    "golesLocal": null,
+    "golesVisitante": null
+  }
 ]
