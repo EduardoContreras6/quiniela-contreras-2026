@@ -523,3 +523,30 @@ body{
     opacity:.75;
     font-size:.9rem;
 }
+
+.bracket-partido{
+    background:#0d1117;
+    border:1px solid #374151;
+    border-radius:12px;
+    padding:10px;
+    margin-top:10px;
+}
+
+.bracket-equipos{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    font-size:.85rem;
+    font-weight:600;
+}
+
+.bracket-equipos strong{
+    font-size:.7rem;
+    opacity:.6;
+}
+
+.bracket-fecha{
+    margin-top:8px;
+    font-size:.75rem;
+    opacity:.75;
+}
