@@ -331,9 +331,12 @@ function obtenerProximosPartidos(equiposPersona, partidos) {
             equiposPersona.includes(partido.local) ||
             equiposPersona.includes(partido.visitante)
         )
-        .filter(partido =>
-            new Date(partido.fecha) >= ahora
-        )
+        .filter(partido => {
+            const fechaPartido = new Date(partido.fecha);
+            const estado = partido.estado || "programado";
+
+            return estado === "en-vivo" || fechaPartido >= ahora;
+        })
         .sort((a, b) =>
             new Date(a.fecha) - new Date(b.fecha)
         )
@@ -357,6 +360,55 @@ function crearHTMLProximosPartidos(persona, partidos) {
             </div>
         `;
     }
+
+    const partidosHTML = proximos
+        .map(partido => {
+
+            const fecha = formatearFechaPartido(partido.fecha);
+            const estado = partido.estado || "programado";
+
+            const marcador =
+                estado === "finalizado" || estado === "en-vivo"
+                    ? `${partido.golesLocal} - ${partido.golesVisitante}`
+                    : "vs";
+
+            const textoEstado = estado
+                .replace("-", " ")
+                .toUpperCase();
+
+            return `
+                <div class="proximo-partido">
+
+                    <div class="partido-equipos">
+                        ${banderas[partido.local] || "🏳️"} ${partido.local}
+                        <span>${marcador}</span>
+                        ${banderas[partido.visitante] || "🏳️"} ${partido.visitante}
+                    </div>
+
+                    <div class="partido-detalle">
+                        📅 ${fecha}
+                    </div>
+
+                    <div class="partido-fase">
+                        ${partido.fase}
+                    </div>
+
+                    <div class="estado-partido ${estado}">
+                        ${textoEstado}
+                    </div>
+
+                </div>
+            `;
+        })
+        .join("");
+
+    return `
+        <div class="proximos-partidos">
+            <h3>Próximos partidos</h3>
+            ${partidosHTML}
+        </div>
+    `;
+}
 
     const partidosHTML = proximos
         .map(partido => {
