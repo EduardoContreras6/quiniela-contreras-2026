@@ -1,1 +1,77 @@
-
+[
+  {
+    "nombre": "Paty",
+    "foto": "paty.jpg",
+    "equipos": ["Brasil", "Noruega", "Japon"]
+  },
+  {
+    "nombre": "Ester",
+    "foto": "ester.jpg",
+    "equipos": ["Argentina", "Panama", "Corea del Sur"]
+  },
+  {
+    "nombre": "Jose",
+    "foto": "jose.jpg",
+    "equipos": ["Belgica", "Qatar", "Australia", "Suiza", "Mexico", "Croacia"]
+  },
+  {
+    "nombre": "Karla",
+    "foto": "karla.jpg",
+    "equipos": ["Francia", "Paraguay", "Tunez"]
+  },
+  {
+    "nombre": "Sara",
+    "foto": "sara.jpg",
+    "equipos": ["España", "Bosnia y Herzegovina", "Marruecos"]
+  },
+  {
+    "nombre": "Tavo",
+    "foto": "tavo.jpg",
+    "equipos": ["Portugal", "Canada", "Sudafrica"]
+  },
+  {
+    "nombre": "Cesar",
+    "foto": "cesar.jpg",
+    "equipos": ["Alemania", "Egipto", "Escocia"]
+  },
+  {
+    "nombre": "Sara 2",
+    "foto": "",
+    "equipos": ["Inglaterra", "Irak", "Curazao"]
+  },
+  {
+    "nombre": "Kati",
+    "foto": "kati.jpg",
+    "equipos": ["Uruguay", "Nueva Zelanda", "Turquia"]
+  },
+  {
+    "nombre": "Lalo",
+    "foto": "lalo.jpg",
+    "equipos": ["Paises Bajos", "Austria", "Haiti"]
+  },
+  {
+    "nombre": "Sara 3",
+    "foto": "",
+    "equipos": ["Colombia", "Argelia", "Republica Checa"]
+  },
+  {
+    "nombre": "Rene",
+    "foto": "rene.jpg",
+    "equipos": ["Estados Unidos", "Arabia Saudita", "Costa de Marfil"]
+  },
+  {
+    "nombre": "Chemo",
+    "foto": "chemo.jpg",
+    "equipos": ["Mexico", "Jordania", "Ecuador"]
+  },
+  {
+    "nombre": "Angel",
+    "foto": "angel.jpg",
+    "equipos": ["Suiza", "Ghana", "Uzbekistan"]
+  },
+  {
+    "nombre": "Maribel",
+    "foto": "maribel.jpg",
+    "equipos": ["Iran", "Senegal", "Republica Democratica del Congo"]
+  }
+]
