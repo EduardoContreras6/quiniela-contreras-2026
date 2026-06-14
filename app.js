@@ -76,6 +76,8 @@ async function cargarParticipantes() {
     const participantes = await response.json();
     const estadosResponse = await fetch("assets/data/estados.json");
     const estados = await estadosResponse.json();
+    const partidosResponse = await fetch("assets/data/partidos.json");
+    const partidos = await partidosResponse.json();
 
     participantes.sort((a, b) =>
         a.nombre.localeCompare(
@@ -219,6 +221,11 @@ item.innerHTML = `
                     })
                     .join("");
 
+            const proximosPartidosHTML = crearHTMLProximosPartidos(
+                persona,
+                partidos
+            );
+
             document.getElementById("modal-body").innerHTML = `
                 <div style="text-align:center">
 
@@ -231,6 +238,8 @@ item.innerHTML = `
                     <p style="margin-top:20px">
                         ⚽ ${persona.equipos.length} equipos
                     </p>
+
+                    ${proximosPartidosHTML}
 
                 </div>
             `;
@@ -295,6 +304,91 @@ function actualizarPodio(ranking, campeon) {
 
     document.getElementById("tercero").innerHTML =
         crearPodioCard(tercero, "🥉", "Tercer lugar");
+}
+
+function formatearFechaPartido(fechaISO) {
+
+    const fecha = new Date(fechaISO);
+
+    return fecha.toLocaleString("es-MX", {
+        weekday: "short",
+        day: "2-digit",
+        month: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZone: "America/Mexico_City"
+    });
+}
+
+function obtenerProximosPartidos(equiposPersona, partidos) {
+
+    const ahora = new Date();
+
+    return partidos
+        .filter(partido =>
+            equiposPersona.includes(partido.local) ||
+            equiposPersona.includes(partido.visitante)
+        )
+        .filter(partido =>
+            new Date(partido.fecha) >= ahora
+        )
+        .sort((a, b) =>
+            new Date(a.fecha) - new Date(b.fecha)
+        )
+        .slice(0, 3);
+}
+
+function crearHTMLProximosPartidos(persona, partidos) {
+
+    const proximos = obtenerProximosPartidos(
+        persona.equipos,
+        partidos
+    );
+
+    if (proximos.length === 0) {
+        return `
+            <div class="proximos-partidos">
+                <h3>Próximos partidos</h3>
+                <p class="sin-partidos">
+                    No hay próximos partidos registrados para estos equipos.
+                </p>
+            </div>
+        `;
+    }
+
+    const partidosHTML = proximos
+        .map(partido => {
+
+            const fecha = formatearFechaPartido(partido.fecha);
+
+            return `
+                <div class="proximo-partido">
+
+                    <div class="partido-equipos">
+                        ${banderas[partido.local] || "🏳️"} ${partido.local}
+                        <span>vs</span>
+                        ${banderas[partido.visitante] || "🏳️"} ${partido.visitante}
+                    </div>
+
+                    <div class="partido-detalle">
+                        📅 ${fecha}
+                    </div>
+
+                    <div class="partido-fase">
+                        ${partido.fase}
+                    </div>
+
+                </div>
+            `;
+        })
+        .join("");
+
+    return `
+        <div class="proximos-partidos">
+            <h3>Próximos partidos</h3>
+            ${partidosHTML}
+        </div>
+    `;
 }
 
 cargarParticipantes();
