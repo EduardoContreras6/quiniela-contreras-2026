@@ -158,29 +158,45 @@ const ranking = [...participantes].sort((a, b) => {
 
         item.className = "ranking-item";
 
-        const fotoRanking = persona.foto
-            ? `<img src="assets/fotos/${persona.foto}" class="ranking-avatar">`
-            : `<div class="ranking-avatar ranking-sin-foto">?</div>`;
+const fotoRanking = persona.foto
+    ? `<img src="assets/fotos/${persona.foto}" class="ranking-avatar">`
+    : `<div class="ranking-avatar ranking-sin-foto">?</div>`;
 
-        item.innerHTML = `
-            <div class="ranking-info">
+const banderasRanking = persona.equipos
+    .map(equipo => {
+        const estado = estados[equipo] || "vivo";
 
-                ${fotoRanking}
-
-                <div>
-
-                    <strong>#${index + 1}</strong>
-
-                    <div>${persona.nombre}</div>
-
-                    <small>
-                        ${persona.tieneCampeon ? "🏆 Campeón de la quiniela" : `🟢 ${persona.equiposVivos} vivos / ⚽ ${persona.equipos.length} equipos`}
-                    </small>
-
-                </div>
-
-            </div>
+        return `
+            <span class="ranking-bandera ${estado}" title="${equipo}">
+                ${banderas[equipo] || "🏳️"}
+            </span>
         `;
+    })
+    .join("");
+
+item.innerHTML = `
+    <div class="ranking-info">
+
+        ${fotoRanking}
+
+        <div class="ranking-texto">
+
+            <strong>#${index + 1}</strong>
+
+            <div>${persona.nombre}</div>
+
+            <div class="ranking-banderas">
+                ${banderasRanking}
+            </div>
+
+            <small>
+                ${persona.tieneCampeon ? "🏆 Campeón de la quiniela" : `🟢 ${persona.equiposVivos} vivos / ⚽ ${persona.equipos.length} equipos`}
+            </small>
+
+        </div>
+
+    </div>
+`;
 
         item.addEventListener("click", () => {
 
