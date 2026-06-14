@@ -778,32 +778,36 @@ function renderizarBracket(partidos, participantes) {
         `;
     }
 
-    function crearCentro() {
+function crearCentro() {
 
-        return `
-            <div class="knockout-center">
+    return `
+        <div class="knockout-center">
 
-                <div class="round-title final-title" style="grid-column:1;grid-row:1;">
-                    Final
-                </div>
-
-                ${crearMatchHTML(
-                    final[0] || null,
-                    "ronda-final final-card",
-                    "grid-column:1; grid-row:9 / span 2;",
-                    "Final"
-                )}
-
-                ${crearMatchHTML(
-                    tercerLugar[0] || null,
-                    "ronda-tercero tercer-lugar-card",
-                    "grid-column:1; grid-row:13 / span 2;",
-                    "Tercer lugar"
-                )}
-
+            <div class="round-title final-title" style="grid-column:1;grid-row:1;">
+                Final
             </div>
-        `;
-    }
+
+            ${crearMatchHTML(
+                final[0] || null,
+                "ronda-final final-card",
+                "grid-column:1; grid-row:9 / span 2;",
+                "Final"
+            )}
+
+            <div class="round-title third-place-title" style="grid-column:1;grid-row:12;">
+                Tercer lugar
+            </div>
+
+            ${crearMatchHTML(
+                tercerLugar[0] || null,
+                "ronda-tercero tercer-lugar-card",
+                "grid-column:1; grid-row:13 / span 2;",
+                "Tercer lugar"
+            )}
+
+        </div>
+    `;
+}
 
     bracketContainer.innerHTML = `
         <div class="bracket-scroll">
