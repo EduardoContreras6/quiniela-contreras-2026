@@ -410,3 +410,33 @@ body{
     }
 
 }
+
+@media(max-width:768px){
+
+    .dashboard{
+        display:grid;
+        grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+        gap:6px;
+        padding:10px 8px;
+    }
+
+    .card{
+        padding:10px 4px;
+        border-radius:12px;
+        min-width:0;
+    }
+
+    .card h2{
+        font-size:1rem;
+        margin-bottom:5px;
+        line-height:1;
+    }
+
+    .card span{
+        display:block;
+        font-size:.55rem;
+        line-height:1.1;
+        word-break:normal;
+    }
+
+}
