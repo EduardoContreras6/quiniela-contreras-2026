@@ -355,3 +355,58 @@ body{
 .collapsible-section[open] summary::after{
     content:" ▲";
 }
+
+@media(max-width:768px){
+
+    .podio{
+        padding:12px 8px;
+    }
+
+    .podio-grid{
+        display:grid;
+        grid-template-columns:repeat(3, minmax(0, 1fr)) !important;
+        gap:6px;
+        width:100%;
+        overflow:visible;
+    }
+
+    .podio-card{
+        min-width:0;
+        min-height:130px;
+        padding:8px 4px;
+        border-radius:12px;
+    }
+
+    .medalla{
+        font-size:1.3rem;
+        margin-bottom:4px;
+    }
+
+    .podio-avatar{
+        width:42px;
+        height:42px;
+        margin-bottom:5px;
+    }
+
+    .podio-card h3{
+        font-size:.7rem;
+        line-height:1.1;
+        margin-bottom:4px;
+        max-width:100%;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+
+    .podio-card p{
+        font-size:.58rem;
+        line-height:1.1;
+        margin-bottom:3px;
+    }
+
+    .podio-card small{
+        font-size:.55rem;
+        line-height:1.1;
+    }
+
+}
