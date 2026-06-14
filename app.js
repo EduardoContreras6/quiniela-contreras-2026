@@ -459,7 +459,7 @@ function crearEquipoBracket(equipo) {
         "Octavos",
         "Cuartos",
         "Semifinales",
-        "Tercer lugar"
+        "Tercer lugar",
         "Final"
     ];
 
