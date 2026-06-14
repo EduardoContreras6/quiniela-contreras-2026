@@ -103,8 +103,8 @@ async function cargarParticipantes() {
 
         const equiposHTML = participante.equipos
             .map(equipo => `
-                <div class="equipo">
-                    ${banderas[equipo] || "🏳️"} ⚽ ${equipo}
+                <div class="equipo vivo">
+                    ${banderas[equipo] || "🏳️"} ${equipo}
                 </div>
             `)
             .join("");
