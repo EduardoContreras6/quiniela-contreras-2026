@@ -600,3 +600,19 @@ body{
     font-size:.75rem;
     font-weight:bold;
 }
+
+.info-datos{
+    margin:10px auto 20px;
+    padding:10px 14px;
+    max-width:900px;
+    text-align:center;
+    font-size:.85rem;
+    color:#9ca3af;
+    background:#0d1117;
+    border:1px solid #1f2937;
+    border-radius:14px;
+}
+
+.info-datos strong{
+    color:#e5e7eb;
+}
