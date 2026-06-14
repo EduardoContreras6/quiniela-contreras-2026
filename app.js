@@ -79,7 +79,7 @@ async function cargarParticipantes() {
     const estados = await estadosResponse.json();
     const partidosResponse = await fetch("assets/data/partidos.json");
     const partidos = await partidosResponse.json();
-    renderizarBracket(partidos);
+    renderizarBracket(partidos, participantes);
 
     participantes.sort((a, b) =>
         a.nombre.localeCompare(
@@ -412,9 +412,33 @@ function crearHTMLProximosPartidos(persona, partidos) {
     `;
 }
 
-function renderizarBracket(partidos) {
+function renderizarBracket(partidos, participantes) {
 
     if (!bracketContainer) return;
+
+    function obtenerDuenoEquipo(equipo) {
+    return participantes.find(persona =>
+        persona.equipos.includes(equipo)
+    );
+}
+
+function crearEquipoBracket(equipo) {
+
+    const dueno = obtenerDuenoEquipo(equipo);
+
+    const fotoDueno = dueno && dueno.foto
+        ? `<img src="assets/fotos/${dueno.foto}" class="bracket-dueno-foto" title="${dueno.nombre}">`
+        : dueno
+            ? `<div class="bracket-dueno-foto bracket-dueno-sin-foto" title="${dueno.nombre}">?</div>`
+            : "";
+
+    return `
+        <div class="bracket-equipo-linea">
+            <span>${banderas[equipo] || "🏳️"} ${equipo}</span>
+            ${fotoDueno}
+        </div>
+    `;
+}
 
     const ordenFases = [
         "Grupo A",
@@ -474,13 +498,15 @@ function renderizarBracket(partidos) {
                     return `
                         <div class="bracket-partido">
 
-                            <div class="bracket-equipos">
-                                <span>${banderas[partido.local] || "🏳️"} ${partido.local}</span>
+                        <div class="bracket-equipos">
 
-                                <strong>${marcador}</strong>
+                            ${crearEquipoBracket(partido.local)}
 
-                                <span>${banderas[partido.visitante] || "🏳️"} ${partido.visitante}</span>
-                            </div>
+                            <strong>${marcador}</strong>
+
+                            ${crearEquipoBracket(partido.visitante)}
+
+                        </div>
 
                             <div class="estado-partido ${estado}">
                                 ${textoEstado}
