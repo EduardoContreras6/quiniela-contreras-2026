@@ -1,0 +1,32 @@
+[
+    {
+        "local": "Mexico",
+        "visitante": "Corea del Sur",
+        "fecha": "2026-06-18T19:00:00-06:00",
+        "fase": "Grupo A"
+    },
+    {
+        "local": "Brasil",
+        "visitante": "Haiti",
+        "fecha": "2026-06-19T18:30:00-06:00",
+        "fase": "Grupo C"
+    },
+    {
+        "local": "Argentina",
+        "visitante": "Austria",
+        "fecha": "2026-06-22T11:00:00-06:00",
+        "fase": "Grupo J"
+    },
+    {
+        "local": "Francia",
+        "visitante": "Irak",
+        "fecha": "2026-06-22T15:00:00-06:00",
+        "fase": "Grupo I"
+    },
+    {
+        "local": "España",
+        "visitante": "Arabia Saudita",
+        "fecha": "2026-06-21T10:00:00-06:00",
+        "fase": "Grupo H"
+    }
+]
