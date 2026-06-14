@@ -112,3 +112,19 @@ body{
     }
 
 }
+
+.ranking-item{
+    background:#161b22;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:10px;
+}
+
+.sin-foto{
+    height:280px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.2rem;
+    background:#222;
+}
