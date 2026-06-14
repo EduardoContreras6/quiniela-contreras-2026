@@ -895,7 +895,7 @@ body{
 .bracket-scroll{
     --line-color:#4b5563;
     --gap-x:26px;
-    --row-h:70px;
+    --row-h:82px;
 
     display:grid;
     grid-template-columns:auto 300px auto;
@@ -931,14 +931,14 @@ body{
 .bracket-match{
     position:relative;
     align-self:center;
-    min-height:118px;
+    min-height:104px;
     background:#161b22;
     border:1px solid #374151;
     border-radius:14px;
-    padding:10px;
+    padding:8px;
     display:flex;
     flex-direction:column;
-    gap:7px;
+    gap:6px;
     overflow:visible;
 }
 
@@ -1143,7 +1143,7 @@ body{
     .bracket-scroll{
         min-width:2050px;
         --gap-x:22px;
-        --row-h:66px;
+        --row-h:78px;
         grid-template-columns:auto 280px auto;
     }
 
@@ -1156,8 +1156,8 @@ body{
     }
 
     .bracket-match{
-        min-height:112px;
-        padding:8px;
+        min-height:100px;
+        padding:7px;
     }
 
     .bracket-team-name{
