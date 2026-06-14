@@ -85,10 +85,12 @@ body{
     object-position:center center;
     display:block;
     margin:0 auto 15px auto;
+    border:3px solid #374151;
 }
 
 .participante-info{
     padding:20px;
+    text-align:center;
 }
 
 .participante-info h3{
