@@ -690,7 +690,24 @@ async function cargarPartidosAutomaticos() {
     }
 }
 
-cargarParticipantes();
+cargarParticipantes().catch(error => {
+    console.error("Error general cargando la página:", error);
+
+    if (rankingContainer) {
+        rankingContainer.innerHTML = `
+            <div class="ranking-item">
+                <strong>Error cargando la información</strong>
+                <p>Revisa la consola del navegador o los archivos JSON.</p>
+            </div>
+        `;
+    }
+
+    if (bracketContainer) {
+        bracketContainer.innerHTML = `
+            <p>No se pudo cargar el bracket.</p>
+        `;
+    }
+});
 
 document
     .getElementById("cerrar-modal")
