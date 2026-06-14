@@ -48,6 +48,7 @@ const banderas = {
     "Alemania": "🇩🇪"
 };
 const rankingContainer = document.getElementById("ranking-container");
+const bracketContainer = document.getElementById("bracket-container");
 
 const MONTO_PREMIO = "$1,600";
 
@@ -78,6 +79,7 @@ async function cargarParticipantes() {
     const estados = await estadosResponse.json();
     const partidosResponse = await fetch("assets/data/partidos.json");
     const partidos = await partidosResponse.json();
+    renderizarBracket(partidos);
 
     participantes.sort((a, b) =>
         a.nombre.localeCompare(
@@ -388,6 +390,92 @@ function crearHTMLProximosPartidos(persona, partidos) {
             <h3>Próximos partidos</h3>
             ${partidosHTML}
         </div>
+    `;
+}
+
+function renderizarBracket(partidos) {
+
+    if (!bracketContainer) return;
+
+    const ordenFases = [
+        "Grupo A",
+        "Grupo B",
+        "Grupo C",
+        "Grupo D",
+        "Grupo E",
+        "Grupo F",
+        "Grupo G",
+        "Grupo H",
+        "Grupo I",
+        "Grupo J",
+        "Grupo K",
+        "Grupo L",
+        "Dieciseisavos",
+        "Octavos",
+        "Cuartos",
+        "Semifinales",
+        "Final"
+    ];
+
+    const partidosOrdenados = [...partidos].sort(
+        (a, b) => new Date(a.fecha) - new Date(b.fecha)
+    );
+
+    const partidosPorFase = {};
+
+    partidosOrdenados.forEach(partido => {
+
+        if (!partidosPorFase[partido.fase]) {
+            partidosPorFase[partido.fase] = [];
+        }
+
+        partidosPorFase[partido.fase].push(partido);
+
+    });
+
+    const fasesHTML = ordenFases
+        .filter(fase => partidosPorFase[fase])
+        .map(fase => {
+
+            const partidosHTML = partidosPorFase[fase]
+                .map(partido => {
+
+                    const fecha = formatearFechaPartido(partido.fecha);
+
+                    return `
+                        <div class="bracket-partido">
+
+                            <div class="bracket-equipos">
+                                <span>${banderas[partido.local] || "🏳️"} ${partido.local}</span>
+                                <strong>vs</strong>
+                                <span>${banderas[partido.visitante] || "🏳️"} ${partido.visitante}</span>
+                            </div>
+
+                            <div class="bracket-fecha">
+                                📅 ${fecha}
+                            </div>
+
+                        </div>
+                    `;
+
+                })
+                .join("");
+
+            return `
+                <div class="fase">
+
+                    <h3>${fase}</h3>
+
+                    ${partidosHTML}
+
+                </div>
+            `;
+
+        })
+        .join("");
+
+    bracketContainer.innerHTML = fasesHTML || `
+        <p>No hay partidos cargados todavía.</p>
     `;
 }
 
