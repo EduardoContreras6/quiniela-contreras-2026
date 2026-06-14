@@ -144,10 +144,26 @@ async function cargarParticipantes() {
 
         item.className = "ranking-item";
 
+        const fotoRanking = persona.foto
+            ? `<img src="assets/fotos/${persona.foto}" class="ranking-avatar">`
+            : `<div class="ranking-avatar ranking-sin-foto">?</div>`;
+
         item.innerHTML = `
-            <strong>#${index + 1}</strong>
-            ${persona.nombre}
-            (${persona.equipos.length} equipos)
+            <div class="ranking-info">
+
+                ${fotoRanking}
+
+                <div>
+
+                    <strong>#${index + 1}</strong>
+
+                    <div>${persona.nombre}</div>
+
+                    <small>⚽ ${persona.equipos.length} equipos</small>
+
+                </div>
+
+            </div>
         `;
 
         rankingContainer.appendChild(item);
