@@ -1,4 +1,53 @@
 const participantesContainer = document.getElementById("participantes-container");
+const banderas = {
+    "Argentina": "🇦🇷",
+    "Arabia Saudita": "🇸🇦",
+    "Argelia": "🇩🇿",
+    "Australia": "🇦🇺",
+    "Austria": "🇦🇹",
+    "Belgica": "🇧🇪",
+    "Bosnia y Herzegovina": "🇧🇦",
+    "Brasil": "🇧🇷",
+    "Cabo Verde": "🇨🇻",
+    "Canada": "🇨🇦",
+    "Colombia": "🇨🇴",
+    "Congo": "🇨🇩",
+    "Corea del Sur": "🇰🇷",
+    "Costa de Marfil": "🇨🇮",
+    "Croacia": "🇭🇷",
+    "Curazao": "🇨🇼",
+    "Ecuador": "🇪🇨",
+    "Egipto": "🇪🇬",
+    "España": "🇪🇸",
+    "Estados Unidos": "🇺🇸",
+    "Francia": "🇫🇷",
+    "Ghana": "🇬🇭",
+    "Haiti": "🇭🇹",
+    "Inglaterra": "🏴",
+    "Irak": "🇮🇶",
+    "Iran": "🇮🇷",
+    "Japon": "🇯🇵",
+    "Jordania": "🇯🇴",
+    "Marruecos": "🇲🇦",
+    "Mexico": "🇲🇽",
+    "Noruega": "🇳🇴",
+    "Nueva Zelanda": "🇳🇿",
+    "Paises Bajos": "🇳🇱",
+    "Panama": "🇵🇦",
+    "Paraguay": "🇵🇾",
+    "Portugal": "🇵🇹",
+    "Qatar": "🇶🇦",
+    "Republica Checa": "🇨🇿",
+    "Senegal": "🇸🇳",
+    "Sudafrica": "🇿🇦",
+    "Suecia": "🇸🇪",
+    "Suiza": "🇨🇭",
+    "Tunez": "🇹🇳",
+    "Turquia": "🇹🇷",
+    "Uruguay": "🇺🇾",
+    "Uzbekistan": "🇺🇿",
+    "Alemania": "🇩🇪"
+};
 const rankingContainer = document.getElementById("ranking-container");
 
 async function cargarParticipantes() {
@@ -36,7 +85,7 @@ async function cargarParticipantes() {
         const equiposHTML = participante.equipos
             .map(equipo => `
                 <div class="equipo">
-                    ⚽ ${equipo}
+                    ${banderas[equipo] || "🏳️"} ⚽ ${equipo}
                 </div>
             `)
             .join("");
