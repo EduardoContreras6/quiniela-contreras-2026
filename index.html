@@ -1,9 +1,104 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Quiniela Contreras</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiniela Contreras 2026</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
+
+    <header class="hero">
+
+        <img src="assets/fifa.png" alt="FIFA" class="logo">
+
+        <h1>Copa Mundial de Futbol 2026</h1>
+
+        <p class="subtitle">
+            Quiniela Contreras
+        </p>
+
+    </header>
+
+    <section class="dashboard">
+
+        <div class="card">
+            <h2 id="participantes-count">0</h2>
+            <span>Participantes</span>
+        </div>
+
+        <div class="card">
+            <h2 id="equipos-vivos">0</h2>
+            <span>Equipos vivos</span>
+        </div>
+
+        <div class="card">
+            <h2 id="equipos-eliminados">0</h2>
+            <span>Equipos eliminados</span>
+        </div>
+
+        <div class="card">
+            <h2 id="lider-actual">---</h2>
+            <span>Líder actual</span>
+        </div>
+
+    </section>
+
+    <section class="ranking">
+
+        <h2>Ranking Actual</h2>
+
+        <div id="ranking-container"></div>
+
+    </section>
+
+    <section class="participantes">
+
+        <h2>Participantes</h2>
+
+        <div id="participantes-container"></div>
+
+    </section>
+
+    <section class="bracket">
+
+        <h2>Bracket Mundial 2026</h2>
+
+        <div id="bracket-container">
+
+            <p>
+                Se actualizará automáticamente conforme avance el torneo.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="podio">
+
+        <h2>Podio Final</h2>
+
+        <div class="podio-grid">
+
+            <div id="segundo"></div>
+
+            <div id="primero"></div>
+
+            <div id="tercero"></div>
+
+        </div>
+
+    </section>
+
+    <script src="app.js"></script>
+
 </body>
+
 </html>
