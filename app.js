@@ -332,10 +332,12 @@ function obtenerProximosPartidos(equiposPersona, partidos) {
             equiposPersona.includes(partido.visitante)
         )
         .filter(partido => {
+
             const fechaPartido = new Date(partido.fecha);
             const estado = partido.estado || "programado";
 
             return estado === "en-vivo" || fechaPartido >= ahora;
+
         })
         .sort((a, b) =>
             new Date(a.fecha) - new Date(b.fecha)
@@ -410,41 +412,6 @@ function crearHTMLProximosPartidos(persona, partidos) {
     `;
 }
 
-    const partidosHTML = proximos
-        .map(partido => {
-
-            const fecha = formatearFechaPartido(partido.fecha);
-
-            return `
-                <div class="proximo-partido">
-
-                    <div class="partido-equipos">
-                        ${banderas[partido.local] || "🏳️"} ${partido.local}
-                        <span>vs</span>
-                        ${banderas[partido.visitante] || "🏳️"} ${partido.visitante}
-                    </div>
-
-                    <div class="partido-detalle">
-                        📅 ${fecha}
-                    </div>
-
-                    <div class="partido-fase">
-                        ${partido.fase}
-                    </div>
-
-                </div>
-            `;
-        })
-        .join("");
-
-    return `
-        <div class="proximos-partidos">
-            <h3>Próximos partidos</h3>
-            ${partidosHTML}
-        </div>
-    `;
-}
-
 function renderizarBracket(partidos) {
 
     if (!bracketContainer) return;
@@ -493,26 +460,31 @@ function renderizarBracket(partidos) {
                 .map(partido => {
 
                     const fecha = formatearFechaPartido(partido.fecha);
+                    const estado = partido.estado || "programado";
+
+                    const marcador =
+                        estado === "finalizado" || estado === "en-vivo"
+                            ? `${partido.golesLocal} - ${partido.golesVisitante}`
+                            : "vs";
+
+                    const textoEstado = estado
+                        .replace("-", " ")
+                        .toUpperCase();
 
                     return `
                         <div class="bracket-partido">
 
-                        <div class="bracket-equipos">
-                            <span>${banderas[partido.local] || "🏳️"} ${partido.local}</span>
+                            <div class="bracket-equipos">
+                                <span>${banderas[partido.local] || "🏳️"} ${partido.local}</span>
 
-                            <strong>
-                                ${partido.estado === "finalizado" || partido.estado === "en vivo"
-                                    ? `${partido.golesLocal} - ${partido.golesVisitante}`
-                                    : "vs"
-                                }
-                            </strong>
+                                <strong>${marcador}</strong>
 
-                            <span>${banderas[partido.visitante] || "🏳️"} ${partido.visitante}</span>
-                        </div>
+                                <span>${banderas[partido.visitante] || "🏳️"} ${partido.visitante}</span>
+                            </div>
 
-                        <div class="estado-partido ${partido.estado || "programado"}">
-                            ${partido.estado || "programado"}
-                        </div>
+                            <div class="estado-partido ${estado}">
+                                ${textoEstado}
+                            </div>
 
                             <div class="bracket-fecha">
                                 📅 ${fecha}
