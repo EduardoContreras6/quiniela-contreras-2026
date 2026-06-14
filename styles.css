@@ -550,3 +550,28 @@ body{
     font-size:.75rem;
     opacity:.75;
 }
+
+.estado-partido{
+    display:inline-block;
+    margin-top:8px;
+    padding:4px 8px;
+    border-radius:12px;
+    font-size:.7rem;
+    font-weight:700;
+    text-transform:uppercase;
+}
+
+.estado-partido.programado{
+    background:#1f2937;
+    color:#d1d5db;
+}
+
+.estado-partido.en-vivo{
+    background:#7f1d1d;
+    color:#fecaca;
+}
+
+.estado-partido.finalizado{
+    background:#14532d;
+    color:#bbf7d0;
+}
