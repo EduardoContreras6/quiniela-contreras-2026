@@ -51,6 +51,8 @@ const rankingContainer = document.getElementById("ranking-container");
 const bracketContainer = document.getElementById("bracket-container");
 
 const MONTO_PREMIO = "$1,600";
+let fuentePartidos = "Sin cargar";
+let ultimaCargaPartidos = null;
 
 const OPENFOOTBALL_URL =
     "https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json";
@@ -683,6 +685,10 @@ async function cargarPartidosAutomaticos() {
 
         const data = await response.json();
 
+        fuentePartidos = "API automática";
+        ultimaCargaPartidos = new Date();
+        mostrarInfoDatos();
+
         return data.matches.map(transformarPartidoOpenFootball);
 
     } catch (error) {
@@ -692,7 +698,14 @@ async function cargarPartidosAutomaticos() {
             error
         );
 
-        const partidosResponse = await fetch("assets/data/partidos.json");
+        const partidosResponse = await fetch(
+            `assets/data/partidos.json?t=${Date.now()}`
+        );
+
+        fuentePartidos = "respaldo local";
+        ultimaCargaPartidos = new Date();
+        mostrarInfoDatos();
+
         return await partidosResponse.json();
     }
 }
@@ -749,6 +762,29 @@ function calcularEstadosAutomaticos(partidos, estadosManual) {
     });
 
     return estados;
+}
+
+function mostrarInfoDatos() {
+
+    const infoDatos = document.getElementById("info-datos");
+
+    if (!infoDatos) return;
+
+    const fecha = ultimaCargaPartidos
+        ? ultimaCargaPartidos.toLocaleString("es-MX", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            timeZone: "America/Mexico_City"
+        })
+        : "No disponible";
+
+    infoDatos.innerHTML = `
+        📡 Partidos: <strong>${fuentePartidos}</strong>
+        · Última carga: ${fecha}
+    `;
 }
 
 cargarParticipantes().catch(error => {
