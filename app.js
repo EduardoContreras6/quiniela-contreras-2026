@@ -107,15 +107,19 @@ async function cargarParticipantes() {
     document.getElementById("participantes-count").textContent =
         participantes.length;
 
-let totalEquipos = 0;
-let equiposVivos = 0;
-let equiposEliminados = 0;
-let campeon = null;
+    let totalEquipos = 0;
+    let equiposVivos = 0;
+    let equiposEliminados = 0;
+    let campeon = null;
+    let subcampeon = null;
+    let tercerLugar = null;
 
 participantes.forEach(participante => {
 
     let vivosPersona = 0;
     let tieneCampeon = false;
+    let tieneSubcampeon = false;
+    let tieneTercerLugar = false;
 
     participante.equipos.forEach(equipo => {
 
@@ -132,15 +136,27 @@ participantes.forEach(participante => {
             equiposEliminados++;
         }
 
-        if (estado === "campeon") {
-            campeon = equipo;
-            tieneCampeon = true;
-        }
+if (estado === "campeon") {
+    campeon = equipo;
+    tieneCampeon = true;
+}
+
+if (estado === "subcampeon") {
+    subcampeon = equipo;
+    tieneSubcampeon = true;
+}
+
+if (estado === "tercer-lugar") {
+    tercerLugar = equipo;
+    tieneTercerLugar = true;
+}
 
     });
 
-    participante.equiposVivos = vivosPersona;
-    participante.tieneCampeon = tieneCampeon;
+participante.equiposVivos = vivosPersona;
+participante.tieneCampeon = tieneCampeon;
+participante.tieneSubcampeon = tieneSubcampeon;
+participante.tieneTercerLugar = tieneTercerLugar;
 
 });
 
@@ -150,10 +166,21 @@ document.getElementById("monto-premio").textContent =
 document.getElementById("equipos-eliminados").textContent =
     equiposVivos;
 
+function prioridadPodio(persona) {
+    if (persona.tieneCampeon) return 3;
+    if (persona.tieneSubcampeon) return 2;
+    if (persona.tieneTercerLugar) return 1;
+    return 0;
+}
+
 const ranking = [...participantes].sort((a, b) => {
 
-    if (a.tieneCampeon && !b.tieneCampeon) return -1;
-    if (!a.tieneCampeon && b.tieneCampeon) return 1;
+    const prioridadA = prioridadPodio(a);
+    const prioridadB = prioridadPodio(b);
+
+    if (prioridadB !== prioridadA) {
+        return prioridadB - prioridadA;
+    }
 
     if (b.equiposVivos !== a.equiposVivos) {
         return b.equiposVivos - a.equiposVivos;
@@ -207,7 +234,15 @@ item.innerHTML = `
             </div>
 
             <small>
-                ${persona.tieneCampeon ? "🏆 Campeón de la quiniela" : `🟢 ${persona.equiposVivos} vivos / ⚽ ${persona.equipos.length} equipos`}
+                ${
+    persona.tieneCampeon
+        ? "🏆 Tiene al campeón"
+        : persona.tieneSubcampeon
+            ? "🥈 Tiene al subcampeón"
+            : persona.tieneTercerLugar
+                ? "🥉 Tiene al tercer lugar"
+                : `🟢 ${persona.equiposVivos} vivos / ⚽ ${persona.equipos.length} equipos`
+}
             </small>
 
         </div>
@@ -271,13 +306,13 @@ item.innerHTML = `
     
 }
 
-function actualizarPodio(ranking, campeon) {
+function actualizarPodio(ranking, campeon, subcampeon, tercerLugar) {
 
-    const primero = ranking[0];
-    const segundo = ranking[1];
-    const tercero = ranking[2];
+    const primero = ranking.find(persona => persona.tieneCampeon) || ranking[0];
+    const segundo = ranking.find(persona => persona.tieneSubcampeon) || ranking[1];
+    const tercero = ranking.find(persona => persona.tieneTercerLugar) || ranking[2];
 
-    function crearPodioCard(persona, posicion, etiqueta) {
+    function crearPodioCard(persona, posicion, etiqueta, equipoPremiado) {
 
         if (!persona) {
             return `
@@ -292,8 +327,8 @@ function actualizarPodio(ranking, campeon) {
             ? `<img src="assets/fotos/${persona.foto}" class="podio-avatar">`
             : `<div class="podio-avatar podio-sin-foto">?</div>`;
 
-        const textoEstado = persona.tieneCampeon
-            ? `🏆 Tiene a ${campeon}`
+        const textoEstado = equipoPremiado
+            ? `${banderas[equipoPremiado] || "🏳️"} ${equipoPremiado}`
             : `🟢 ${persona.equiposVivos} equipos vivos`;
 
         return `
@@ -312,13 +347,28 @@ function actualizarPodio(ranking, campeon) {
     }
 
     document.getElementById("primero").innerHTML =
-        crearPodioCard(primero, "🥇", campeon ? "Ganador actual" : "Primer lugar provisional");
+        crearPodioCard(
+            primero,
+            "🥇",
+            campeon ? "Campeón del Mundial" : "Primer lugar provisional",
+            campeon
+        );
 
     document.getElementById("segundo").innerHTML =
-        crearPodioCard(segundo, "🥈", "Segundo lugar");
+        crearPodioCard(
+            segundo,
+            "🥈",
+            subcampeon ? "Subcampeón del Mundial" : "Segundo lugar provisional",
+            subcampeon
+        );
 
     document.getElementById("tercero").innerHTML =
-        crearPodioCard(tercero, "🥉", "Tercer lugar");
+        crearPodioCard(
+            tercero,
+            "🥉",
+            tercerLugar ? "Tercer lugar del Mundial" : "Tercer lugar provisional",
+            tercerLugar
+        );
 }
 
 function formatearFechaPartido(fechaISO) {
@@ -1018,12 +1068,20 @@ function calcularEstadosAutomaticos(partidos, estadosManual) {
 
         if (!ganador || !perdedor) return;
 
-        estados[ganador] = "vivo";
-        estados[perdedor] = "eliminado";
-
         if (partido.fase === "Final") {
             estados[ganador] = "campeon";
+            estados[perdedor] = "subcampeon";
+            return;
         }
+
+        if (partido.fase === "Tercer lugar") {
+            estados[ganador] = "tercer-lugar";
+            estados[perdedor] = "eliminado";
+            return;
+        }
+
+        estados[ganador] = "vivo";
+        estados[perdedor] = "eliminado";
 
     });
 
