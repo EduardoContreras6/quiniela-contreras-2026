@@ -22,7 +22,7 @@
   {
     "nombre": "Sara",
     "foto": "sara.jpg",
-    "equipos": ["Arabia Saudita", "Curazao", "Pnama"]
+    "equipos": ["Arabia Saudita", "Curazao", "Panama"]
   },
   {
     "nombre": "Tavo",
@@ -57,7 +57,7 @@
   {
     "nombre": "Rene",
     "foto": "rene.jpg",
-    "equipos": ["Suecia", "Senegal, "Paraguay"]
+    "equipos": ["Suecia", "Senegal", "Paraguay"]
   },
   {
     "nombre": "Chemo",
