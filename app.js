@@ -78,12 +78,6 @@ actualizarContador();
 
 async function cargarParticipantes() {
 
-    console.log("APP.JS ACTUALIZADO - INFO DATOS TEST");
-
-    fuentePartidos = "probando carga";
-    ultimaCargaPartidos = new Date();
-    mostrarInfoDatos();
-
     const response = await fetch("assets/data/participantes.json");
     const participantes = await response.json();
     const estadosResponse = await fetch("assets/data/estados.json");
