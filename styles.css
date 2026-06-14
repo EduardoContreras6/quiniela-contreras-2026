@@ -166,3 +166,21 @@ body{
     background:#78350f;
     border-color:#f59e0b;
 }
+
+#bracket-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:20px;
+}
+
+.fase{
+    background:#161b22;
+    border-radius:16px;
+    padding:20px;
+    text-align:center;
+    border:1px solid #374151;
+}
+
+.fase h3{
+    margin:0;
+}
