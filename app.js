@@ -142,6 +142,8 @@ async function cargarParticipantes() {
 
         const item = document.createElement("div");
 
+        item.style.cursor = "pointer";
+
         item.className = "ranking-item";
 
         const fotoRanking = persona.foto
@@ -166,6 +168,41 @@ async function cargarParticipantes() {
             </div>
         `;
 
+        item.addEventListener("click", () => {
+
+            const foto = persona.foto
+                ? `<img src="assets/fotos/${persona.foto}"
+                       style="width:120px;height:120px;border-radius:50%;object-fit:cover;">`
+                : "";
+
+            const equipos = persona.equipos
+                .map(e =>
+                    `<div class="equipo">
+                        ${banderas[e] || "🏳️"} ${e}
+                    </div>`
+                )
+                .join("");
+
+            document.getElementById("modal-body").innerHTML = `
+                <div style="text-align:center">
+
+                    ${foto}
+
+                    <h2>${persona.nombre}</h2>
+
+                    ${equipos}
+
+                    <p style="margin-top:20px">
+                        ⚽ ${persona.equipos.length} equipos
+                    </p>
+
+                </div>
+            `;
+
+    document.getElementById("modal").style.display = "block";
+
+});
+
         rankingContainer.appendChild(item);
 
     });
@@ -173,3 +210,12 @@ async function cargarParticipantes() {
 }
 
 cargarParticipantes();
+
+document
+    .getElementById("cerrar-modal")
+    .addEventListener("click", () => {
+
+        document.getElementById("modal").style.display =
+            "none";
+
+});
