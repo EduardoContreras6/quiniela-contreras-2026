@@ -10,7 +10,7 @@ const banderas = {
     "Cabo Verde": "🇨🇻",
     "Canada": "🇨🇦",
     "Colombia": "🇨🇴",
-    "Congo": "🇨🇩",
+    "Republica Democratica del Congo": "🇨🇩",
     "Corea del Sur": "🇰🇷",
     "Costa de Marfil": "🇨🇮",
     "Croacia": "🇭🇷",
