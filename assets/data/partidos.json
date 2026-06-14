@@ -178,5 +178,23 @@
     "estado": "programado",
     "golesLocal": null,
     "golesVisitante": null
-  }
+  },
+  {
+  "local": "Argentina",
+  "visitante": "Francia",
+  "fecha": "2026-07-14T19:00:00-06:00",
+  "fase": "Semifinales",
+  "estado": "finalizado",
+  "golesLocal": 2,
+  "golesVisitante": 1
+},
+  {
+  "local": "Argentina",
+  "visitante": "Brasil",
+  "fecha": "2026-07-19T16:00:00-06:00",
+  "fase": "Final",
+  "estado": "finalizado",
+  "golesLocal": 3,
+  "golesVisitante": 2
+}
 ]
