@@ -445,11 +445,22 @@ function renderizarBracket(partidos) {
                     return `
                         <div class="bracket-partido">
 
-                            <div class="bracket-equipos">
-                                <span>${banderas[partido.local] || "🏳️"} ${partido.local}</span>
-                                <strong>vs</strong>
-                                <span>${banderas[partido.visitante] || "🏳️"} ${partido.visitante}</span>
-                            </div>
+                        <div class="bracket-equipos">
+                            <span>${banderas[partido.local] || "🏳️"} ${partido.local}</span>
+
+                            <strong>
+                                ${partido.estado === "finalizado" || partido.estado === "en vivo"
+                                    ? `${partido.golesLocal} - ${partido.golesVisitante}`
+                                    : "vs"
+                                }
+                            </strong>
+
+                            <span>${banderas[partido.visitante] || "🏳️"} ${partido.visitante}</span>
+                        </div>
+
+                        <div class="estado-partido ${partido.estado || "programado"}">
+                            ${partido.estado || "programado"}
+                        </div>
 
                             <div class="bracket-fecha">
                                 📅 ${fecha}
