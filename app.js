@@ -551,9 +551,24 @@ function renderizarBracket(partidos, participantes) {
         );
     }
 
+    function completarSlots(lista, cantidad) {
+        const resultado = [...lista];
+
+        while (resultado.length < cantidad) {
+            resultado.push(null);
+        }
+
+        return resultado.slice(0, cantidad);
+    }
+
     function crearEquipoHTML(equipo) {
 
-        const dueno = obtenerDuenoEquipo(equipo);
+        const equipoReal = equipo || "Por definir";
+        const esPorDefinir = equipoReal === "Por definir";
+
+        const dueno = esPorDefinir
+            ? null
+            : obtenerDuenoEquipo(equipoReal);
 
         const fotoDueno = dueno
             ? (
@@ -566,15 +581,28 @@ function renderizarBracket(partidos, participantes) {
         return `
             <div class="bracket-team">
                 <div class="bracket-team-main">
-                    <span class="bracket-team-flag">${banderas[equipo] || "🏳️"}</span>
-                    <span class="bracket-team-name">${equipo}</span>
+                    <span class="bracket-team-flag">${banderas[equipoReal] || "🏳️"}</span>
+                    <span class="bracket-team-name">${equipoReal}</span>
                 </div>
                 ${fotoDueno}
             </div>
         `;
     }
 
-    function crearMatchHTML(partido) {
+    function crearMatchHTML(partido, rondaClase, estiloGrid, etiqueta) {
+
+        if (!partido) {
+            return `
+                <div class="bracket-match bracket-placeholder ${rondaClase}" style="${estiloGrid}">
+                    <span class="bracket-connector-in"></span>
+                    <span class="bracket-connector-out"></span>
+                    <span class="bracket-connector-vertical"></span>
+
+                    <div class="bracket-placeholder-title">${etiqueta}</div>
+                    <div class="bracket-placeholder-text">Por definir</div>
+                </div>
+            `;
+        }
 
         const estado = partido.estado || "programado";
 
@@ -583,14 +611,27 @@ function renderizarBracket(partidos, participantes) {
                 ? `${partido.golesLocal} - ${partido.golesVisitante}`
                 : "vs";
 
+        const textoEstado = estado
+            .replace("-", " ")
+            .toUpperCase();
+
         return `
-            <div class="bracket-match">
+            <div class="bracket-match ${rondaClase}" style="${estiloGrid}">
+                <span class="bracket-connector-in"></span>
+                <span class="bracket-connector-out"></span>
+                <span class="bracket-connector-vertical"></span>
+
                 ${crearEquipoHTML(partido.local)}
+
                 <div class="bracket-score">${marcador}</div>
+
                 ${crearEquipoHTML(partido.visitante)}
+
                 <div class="bracket-meta">
                     <div>📅 ${formatearFechaPartido(partido.fecha)}</div>
-                    <div class="bracket-phase-status ${estado}">${estado.replace("-", " ").toUpperCase()}</div>
+                    <div class="bracket-phase-status ${estado}">
+                        ${textoEstado}
+                    </div>
                 </div>
             </div>
         `;
@@ -603,72 +644,172 @@ function renderizarBracket(partidos, participantes) {
     const final = partidosKnockout.filter(p => p.fase === "Final");
     const tercerLugar = partidosKnockout.filter(p => p.fase === "Tercer lugar");
 
-    const mitadDieciseisavos = Math.ceil(dieciseisavos.length / 2);
-    const mitadOctavos = Math.ceil(octavos.length / 2);
-    const mitadCuartos = Math.ceil(cuartos.length / 2);
-    const mitadSemis = Math.ceil(semifinales.length / 2);
-
     const izquierda = {
-        dieciseisavos: dieciseisavos.slice(0, mitadDieciseisavos),
-        octavos: octavos.slice(0, mitadOctavos),
-        cuartos: cuartos.slice(0, mitadCuartos),
-        semifinales: semifinales.slice(0, mitadSemis)
+        dieciseisavos: completarSlots(dieciseisavos.slice(0, 8), 8),
+        octavos: completarSlots(octavos.slice(0, 4), 4),
+        cuartos: completarSlots(cuartos.slice(0, 2), 2),
+        semifinales: completarSlots(semifinales.slice(0, 1), 1)
     };
 
     const derecha = {
-        dieciseisavos: dieciseisavos.slice(mitadDieciseisavos),
-        octavos: octavos.slice(mitadOctavos),
-        cuartos: cuartos.slice(mitadCuartos),
-        semifinales: semifinales.slice(mitadSemis)
+        dieciseisavos: completarSlots(dieciseisavos.slice(8, 16), 8),
+        octavos: completarSlots(octavos.slice(4, 8), 4),
+        cuartos: completarSlots(cuartos.slice(2, 4), 2),
+        semifinales: completarSlots(semifinales.slice(1, 2), 1)
     };
 
-    function crearColumna(titulo, partidosFase) {
+    function crearLadoIzquierdo() {
+
+        const html = [];
+
+        html.push(`<div class="round-title" style="grid-column:1;grid-row:1;">1/16</div>`);
+        html.push(`<div class="round-title" style="grid-column:2;grid-row:1;">Octavos</div>`);
+        html.push(`<div class="round-title" style="grid-column:3;grid-row:1;">Cuartos</div>`);
+        html.push(`<div class="round-title" style="grid-column:4;grid-row:1;">Semis</div>`);
+
+        izquierda.dieciseisavos.forEach((partido, index) => {
+            html.push(
+                crearMatchHTML(
+                    partido,
+                    "ronda-32",
+                    `grid-column:1; grid-row:${index * 2 + 2} / span 2;`,
+                    "1/16"
+                )
+            );
+        });
+
+        izquierda.octavos.forEach((partido, index) => {
+            html.push(
+                crearMatchHTML(
+                    partido,
+                    "ronda-16",
+                    `grid-column:2; grid-row:${index * 4 + 3} / span 2;`,
+                    "Octavos"
+                )
+            );
+        });
+
+        izquierda.cuartos.forEach((partido, index) => {
+            html.push(
+                crearMatchHTML(
+                    partido,
+                    "ronda-8",
+                    `grid-column:3; grid-row:${index * 8 + 5} / span 2;`,
+                    "Cuartos"
+                )
+            );
+        });
+
+        izquierda.semifinales.forEach((partido) => {
+            html.push(
+                crearMatchHTML(
+                    partido,
+                    "ronda-4",
+                    `grid-column:4; grid-row:9 / span 2;`,
+                    "Semifinal"
+                )
+            );
+        });
+
         return `
-            <div class="bracket-column">
-                <h3>${titulo}</h3>
-                ${partidosFase.length
-                    ? partidosFase.map(crearMatchHTML).join("")
-                    : `<div class="bracket-empty">Sin partidos definidos</div>`
-                }
+            <div class="knockout-side knockout-left">
+                ${html.join("")}
+            </div>
+        `;
+    }
+
+    function crearLadoDerecho() {
+
+        const html = [];
+
+        html.push(`<div class="round-title" style="grid-column:1;grid-row:1;">Semis</div>`);
+        html.push(`<div class="round-title" style="grid-column:2;grid-row:1;">Cuartos</div>`);
+        html.push(`<div class="round-title" style="grid-column:3;grid-row:1;">Octavos</div>`);
+        html.push(`<div class="round-title" style="grid-column:4;grid-row:1;">1/16</div>`);
+
+        derecha.semifinales.forEach((partido) => {
+            html.push(
+                crearMatchHTML(
+                    partido,
+                    "ronda-4",
+                    `grid-column:1; grid-row:9 / span 2;`,
+                    "Semifinal"
+                )
+            );
+        });
+
+        derecha.cuartos.forEach((partido, index) => {
+            html.push(
+                crearMatchHTML(
+                    partido,
+                    "ronda-8",
+                    `grid-column:2; grid-row:${index * 8 + 5} / span 2;`,
+                    "Cuartos"
+                )
+            );
+        });
+
+        derecha.octavos.forEach((partido, index) => {
+            html.push(
+                crearMatchHTML(
+                    partido,
+                    "ronda-16",
+                    `grid-column:3; grid-row:${index * 4 + 3} / span 2;`,
+                    "Octavos"
+                )
+            );
+        });
+
+        derecha.dieciseisavos.forEach((partido, index) => {
+            html.push(
+                crearMatchHTML(
+                    partido,
+                    "ronda-32",
+                    `grid-column:4; grid-row:${index * 2 + 2} / span 2;`,
+                    "1/16"
+                )
+            );
+        });
+
+        return `
+            <div class="knockout-side knockout-right">
+                ${html.join("")}
+            </div>
+        `;
+    }
+
+    function crearCentro() {
+
+        return `
+            <div class="knockout-center">
+
+                <div class="round-title final-title" style="grid-column:1;grid-row:1;">
+                    Final
+                </div>
+
+                ${crearMatchHTML(
+                    final[0] || null,
+                    "ronda-final final-card",
+                    "grid-column:1; grid-row:9 / span 2;",
+                    "Final"
+                )}
+
+                ${crearMatchHTML(
+                    tercerLugar[0] || null,
+                    "ronda-tercero tercer-lugar-card",
+                    "grid-column:1; grid-row:13 / span 2;",
+                    "Tercer lugar"
+                )}
+
             </div>
         `;
     }
 
     bracketContainer.innerHTML = `
         <div class="bracket-scroll">
-
-            <div class="bracket-side left-side">
-                ${crearColumna("1/16 de final", izquierda.dieciseisavos)}
-                ${crearColumna("Octavos", izquierda.octavos)}
-                ${crearColumna("Cuartos", izquierda.cuartos)}
-                ${crearColumna("Semifinal", izquierda.semifinales)}
-            </div>
-
-            <div class="bracket-center">
-                <div class="bracket-center-block">
-                    <h3>Final</h3>
-                    ${final.length
-                        ? final.map(crearMatchHTML).join("")
-                        : `<div class="bracket-empty">Final pendiente</div>`
-                    }
-                </div>
-
-                <div class="bracket-center-block third-place-block">
-                    <h3>Tercer lugar</h3>
-                    ${tercerLugar.length
-                        ? tercerLugar.map(crearMatchHTML).join("")
-                        : `<div class="bracket-empty">Tercer lugar pendiente</div>`
-                    }
-                </div>
-            </div>
-
-            <div class="bracket-side right-side">
-                ${crearColumna("Semifinal", derecha.semifinales)}
-                ${crearColumna("Cuartos", derecha.cuartos)}
-                ${crearColumna("Octavos", derecha.octavos)}
-                ${crearColumna("1/16 de final", derecha.dieciseisavos)}
-            </div>
-
+            ${crearLadoIzquierdo()}
+            ${crearCentro()}
+            ${crearLadoDerecho()}
         </div>
     `;
 }
