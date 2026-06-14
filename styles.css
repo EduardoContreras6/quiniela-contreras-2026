@@ -816,3 +816,72 @@ body{
         font-size:.66rem;
     }
 }
+
+.grupos-wrapper{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    gap:16px;
+}
+
+.grupo-card{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:18px;
+    padding:14px;
+}
+
+.grupo-card h3{
+    text-align:center;
+    margin-bottom:12px;
+    color:#fff;
+}
+
+.grupo-partido{
+    background:#0d1117;
+    border:1px solid #1f2937;
+    border-radius:14px;
+    padding:10px;
+    margin-bottom:10px;
+}
+
+.grupo-equipo{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    font-size:.85rem;
+    font-weight:700;
+}
+
+.grupo-dueno-foto{
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid #374151;
+    flex-shrink:0;
+}
+
+.grupo-dueno-sin-foto{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#374151;
+    color:white;
+    font-size:.7rem;
+}
+
+.grupo-marcador{
+    text-align:center;
+    margin:6px 0;
+    font-weight:800;
+    background:#111827;
+    border-radius:10px;
+    padding:4px;
+}
+
+.grupo-fecha{
+    margin-top:6px;
+    font-size:.72rem;
+    color:#cbd5e1;
+}
