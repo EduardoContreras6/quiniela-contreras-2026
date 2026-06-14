@@ -1156,15 +1156,3 @@ document.addEventListener("keydown", (event) => {
     }
 
 });
-
-.equipo.subcampeon,
-.ranking-bandera.subcampeon{
-    background:#374151;
-    border-color:#d1d5db;
-}
-
-.equipo.tercer-lugar,
-.ranking-bandera.tercer-lugar{
-    background:#78350f;
-    border-color:#f59e0b;
-}
