@@ -440,3 +440,40 @@ body{
     }
 
 }
+
+.ranking-texto{
+    width:100%;
+}
+
+.ranking-banderas{
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+    margin:5px 0;
+}
+
+.ranking-bandera{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    background:#1f2937;
+    border:1px solid #374151;
+    font-size:1rem;
+}
+
+.ranking-bandera.vivo{
+    border-color:#22c55e;
+}
+
+.ranking-bandera.eliminado{
+    border-color:#ef4444;
+    opacity:.45;
+}
+
+.ranking-bandera.campeon{
+    border-color:#f59e0b;
+    background:#78350f;
+}
