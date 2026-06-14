@@ -73,8 +73,7 @@ body{
 .participante-card{
     background:#161b22;
     border-radius:20px;
-    padding-top:25px;
-    overflow:hidden;
+    padding:20px;
 }
 
 .participante-card img{
