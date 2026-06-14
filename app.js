@@ -52,6 +52,9 @@ const bracketContainer = document.getElementById("bracket-container");
 
 const MONTO_PREMIO = "$1,600";
 
+const OPENFOOTBALL_URL =
+    "https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json";
+
 function actualizarContador() {
 
     const fechaFinal = new Date("2026-07-19T18:00:00");
@@ -77,8 +80,7 @@ async function cargarParticipantes() {
     const participantes = await response.json();
     const estadosResponse = await fetch("assets/data/estados.json");
     const estados = await estadosResponse.json();
-    const partidosResponse = await fetch("assets/data/partidos.json");
-    const partidos = await partidosResponse.json();
+    const partidos = await cargarPartidosAutomaticos();
     renderizarBracket(partidos, participantes);
 
     participantes.sort((a, b) =>
@@ -457,6 +459,7 @@ function crearEquipoBracket(equipo) {
         "Octavos",
         "Cuartos",
         "Semifinales",
+        "Tercer lugar"
         "Final"
     ];
 
@@ -538,6 +541,153 @@ function crearEquipoBracket(equipo) {
     bracketContainer.innerHTML = fasesHTML || `
         <p>No hay partidos cargados todavía.</p>
     `;
+}
+
+function normalizarNombreEquipo(nombre) {
+
+    const nombres = {
+        "Mexico": "Mexico",
+        "South Africa": "Sudafrica",
+        "South Korea": "Corea del Sur",
+        "Czech Republic": "Republica Checa",
+        "Canada": "Canada",
+        "Bosnia & Herzegovina": "Bosnia y Herzegovina",
+        "Qatar": "Qatar",
+        "Switzerland": "Suiza",
+        "Brazil": "Brasil",
+        "Morocco": "Marruecos",
+        "Haiti": "Haiti",
+        "Scotland": "Escocia",
+        "USA": "Estados Unidos",
+        "Paraguay": "Paraguay",
+        "Australia": "Australia",
+        "Turkey": "Turquia",
+        "Germany": "Alemania",
+        "Curaçao": "Curazao",
+        "Ivory Coast": "Costa de Marfil",
+        "Ecuador": "Ecuador",
+        "Netherlands": "Paises Bajos",
+        "Japan": "Japon",
+        "Sweden": "Suecia",
+        "Tunisia": "Tunez",
+        "Spain": "España",
+        "Cape Verde": "Cabo Verde",
+        "Saudi Arabia": "Arabia Saudita",
+        "Uruguay": "Uruguay",
+        "Belgium": "Belgica",
+        "Egypt": "Egipto",
+        "Iran": "Iran",
+        "New Zealand": "Nueva Zelanda",
+        "France": "Francia",
+        "Senegal": "Senegal",
+        "Iraq": "Irak",
+        "Norway": "Noruega",
+        "Argentina": "Argentina",
+        "Algeria": "Argelia",
+        "Austria": "Austria",
+        "Jordan": "Jordania",
+        "Portugal": "Portugal",
+        "DR Congo": "Republica Democratica del Congo",
+        "Uzbekistan": "Uzbekistan",
+        "Colombia": "Colombia",
+        "England": "Inglaterra",
+        "Croatia": "Croacia",
+        "Ghana": "Ghana",
+        "Panama": "Panama"
+    };
+
+    return nombres[nombre] || nombre;
+}
+
+function convertirFase(partido) {
+
+    if (partido.group) {
+        return partido.group.replace("Group", "Grupo");
+    }
+
+    const fases = {
+        "Round of 32": "Dieciseisavos",
+        "Round of 16": "Octavos",
+        "Quarter-final": "Cuartos",
+        "Semi-final": "Semifinales",
+        "Match for third place": "Tercer lugar",
+        "Final": "Final"
+    };
+
+    return fases[partido.round] || partido.round || "Sin fase";
+}
+
+function convertirFechaOpenFootball(date, time) {
+
+    if (!date || !time) {
+        return date;
+    }
+
+    const match = time.match(/(\d{1,2}):(\d{2})\s+UTC([+-]\d{1,2})/);
+
+    if (!match) {
+        return `${date}T00:00:00-06:00`;
+    }
+
+    const hora = match[1].padStart(2, "0");
+    const minuto = match[2];
+    const offsetTexto = match[3];
+
+    const signo = offsetTexto.startsWith("-") ? "-" : "+";
+    const horasOffset = Math.abs(
+        parseInt(offsetTexto, 10)
+    ).toString().padStart(2, "0");
+
+    return `${date}T${hora}:${minuto}:00${signo}${horasOffset}:00`;
+}
+
+function transformarPartidoOpenFootball(partido) {
+
+    const local = normalizarNombreEquipo(partido.team1);
+    const visitante = normalizarNombreEquipo(partido.team2);
+
+    const tieneMarcador =
+        partido.score &&
+        partido.score.ft &&
+        Array.isArray(partido.score.ft);
+
+    return {
+        local: local,
+        visitante: visitante,
+        fecha: convertirFechaOpenFootball(partido.date, partido.time),
+        fase: convertirFase(partido),
+        estado: tieneMarcador ? "finalizado" : "programado",
+        golesLocal: tieneMarcador ? partido.score.ft[0] : null,
+        golesVisitante: tieneMarcador ? partido.score.ft[1] : null
+    };
+}
+
+async function cargarPartidosAutomaticos() {
+
+    try {
+
+        const response = await fetch(
+            `${OPENFOOTBALL_URL}?t=${Date.now()}`
+        );
+
+        if (!response.ok) {
+            throw new Error("No se pudo cargar OpenFootball");
+        }
+
+        const data = await response.json();
+
+        return data.matches.map(transformarPartidoOpenFootball);
+
+    } catch (error) {
+
+        console.warn(
+            "No se pudo cargar OpenFootball. Usando partidos.json local.",
+            error
+        );
+
+        const partidosResponse = await fetch("assets/data/partidos.json");
+        return await partidosResponse.json();
+    }
 }
 
 cargarParticipantes();
