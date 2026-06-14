@@ -118,5 +118,14 @@
     "visitante": "Corea del Sur",
     "fecha": "2026-06-18T19:00:00-06:00",
     "fase": "Grupo A"
-  }
+  },
+  {
+  "local": "Argentina",
+  "visitante": "Argelia",
+  "fecha": "2026-06-16T19:00:00-06:00",
+  "fase": "Grupo J",
+  "estado": "en-vivo",
+  "golesLocal": 1,
+  "golesVisitante": 0
+}
 ]
