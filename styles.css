@@ -1212,3 +1212,18 @@ body{
     background:#78350f;
     border-color:#f59e0b;
 }
+
+.hero .logo{
+    width:320px !important;
+    max-width:85vw !important;
+    height:auto !important;
+    display:block;
+    margin:0 auto 20px auto;
+}
+
+@media(max-width:768px){
+    .hero .logo{
+        width:240px !important;
+        max-width:85vw !important;
+    }
+}
