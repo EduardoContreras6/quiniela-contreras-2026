@@ -6,6 +6,17 @@ async function cargarParticipantes() {
     const response = await fetch("assets/data/participantes.json");
     const participantes = await response.json();
 
+    participantes.sort((a, b) =>
+        a.nombre.localeCompare(
+            b.nombre,
+            "es",
+            { sensitivity: "base" }
+        )
+    );
+
+    participantesContainer.innerHTML = "";
+    rankingContainer.innerHTML = "";
+
     document.getElementById("participantes-count").textContent =
         participantes.length;
 
@@ -57,8 +68,7 @@ async function cargarParticipantes() {
     document.getElementById("equipos-eliminados").textContent =
         0;
 
-    const ranking = [...participantes]
-        .sort((a, b) => b.equipos.length - a.equipos.length);
+    const ranking = [...participantes];
 
     ranking.forEach((persona, index) => {
 
