@@ -499,53 +499,67 @@ item.innerHTML = `
     </div>
 `;
 
-        item.addEventListener("click", () => {
+item.addEventListener("click", () => {
 
-            const foto = persona.foto
-                ? `<img src="assets/fotos/${persona.foto}"
-                       style="width:120px;height:120px;border-radius:50%;object-fit:cover;">`
-                : "";
+    const foto = persona.foto
+        ? `<img src="assets/fotos/${persona.foto}"
+               style="width:120px;height:120px;border-radius:50%;object-fit:cover;">`
+        : "";
 
-const resumenParticipante = `
-    <div class="modal-estadisticas modal-estadisticas-horizontal">
+    const equipos = persona.equipos
+        .map(e => {
 
-        <div class="modal-stat">
-            <span>⭐</span>
-            <strong>${persona.puntos}</strong>
-            <small>puntos</small>
+            const estado = estados[e] || "vivo";
+
+            return `
+                <div class="equipo ${estado}">
+                    ${banderas[e] || "🏳️"} ${nombrePais(e)}
+                </div>
+            `;
+
+        })
+        .join("");
+
+    const resumenParticipante = `
+        <div class="modal-estadisticas modal-estadisticas-horizontal">
+
+            <div class="modal-stat">
+                <span>⭐</span>
+                <strong>${persona.puntos}</strong>
+                <small>puntos</small>
+            </div>
+
+            <div class="modal-stat">
+                <span>⚽</span>
+                <strong>${persona.golesFavor}</strong>
+                <small>goles a favor</small>
+            </div>
+
         </div>
+    `;
 
-        <div class="modal-stat">
-            <span>⚽</span>
-            <strong>${persona.golesFavor}</strong>
-            <small>goles a favor</small>
+    const proximosPartidosHTML = crearHTMLProximosPartidos(
+        persona,
+        partidos
+    );
+
+    document.getElementById("modal-body").innerHTML = `
+        <div style="text-align:center">
+
+            ${foto}
+
+            <h2>${persona.nombre}</h2>
+
+            <div class="modal-equipos">
+                ${equipos}
+            </div>
+
+            ${resumenParticipante}
+
+            ${proximosPartidosHTML}
+
         </div>
-
-    </div>
-`;
-
-            const proximosPartidosHTML = crearHTMLProximosPartidos(
-                persona,
-                partidos
-            );
-
-document.getElementById("modal-body").innerHTML = `
-    <div style="text-align:center">
-
-        ${foto}
-
-        <h2>${persona.nombre}</h2>
-
-        <div class="modal-equipos">
-            ${equipos}
-        </div>
-
-        ${resumenParticipante}
-
-        ${proximosPartidosHTML}
-
-    </div>
-`;
+    `;
 
     document.getElementById("modal").style.display = "block";
 
