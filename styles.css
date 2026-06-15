@@ -1392,3 +1392,14 @@ body{
     max-height:calc(100vh - 12px);
     overflow-y:auto;
 }
+
+.podio-card p{
+    line-height:1.25;
+}
+
+@media(max-width:768px){
+    .podio-card p{
+        font-size:.56rem;
+        line-height:1.15;
+    }
+}
