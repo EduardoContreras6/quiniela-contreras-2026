@@ -1275,3 +1275,28 @@ body{
         gap:6px;
     }
 }
+
+.bracket-footer{
+    margin-top:4px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+}
+
+.bracket-footer .canales-partido{
+    justify-content:flex-end;
+}
+
+.bracket-footer .canal-logo{
+    width:23px;
+    height:23px;
+    padding:2px;
+}
+
+@media(max-width:768px){
+    .bracket-footer .canal-logo{
+        width:21px;
+        height:21px;
+    }
+}
