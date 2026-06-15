@@ -1345,3 +1345,40 @@ body{
     gap:8px;
     margin:12px 0 18px;
 }
+
+.modal-resumen-linea{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    margin:12px 0 18px;
+    padding:8px 12px;
+    background:#0d1117;
+    border:1px solid #374151;
+    border-radius:14px;
+    font-size:.9rem;
+    font-weight:600;
+    color:#d1d5db;
+    flex-wrap:wrap;
+}
+
+.modal-resumen-linea strong{
+    color:#ffffff;
+    font-size:1rem;
+}
+
+.separador-modal{
+    color:#6b7280;
+}
+
+@media(max-width:480px){
+    .modal-resumen-linea{
+        font-size:.78rem;
+        gap:5px;
+        padding:7px 8px;
+    }
+
+    .modal-resumen-linea strong{
+        font-size:.88rem;
+    }
+}
