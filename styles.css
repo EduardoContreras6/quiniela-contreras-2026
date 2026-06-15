@@ -1384,11 +1384,11 @@ body{
 }
 .modal{
     overflow-y:auto;
-    padding-top:6px;
+    padding-top:2px;
 }
 
 .modal-content{
-    margin:6px auto 20px auto !important;
+    margin:2px auto 20px auto !important;
     max-height:calc(100vh - 12px);
     overflow-y:auto;
 }
