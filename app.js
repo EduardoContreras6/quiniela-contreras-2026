@@ -784,12 +784,17 @@ function renderizarBracket(partidos, participantes) {
 
                 ${crearEquipoHTML(partido.visitante)}
 
-                <div class="bracket-meta">
-                    <div>📅 ${formatearFechaPartido(partido.fecha)}</div>
-                    <div class="bracket-phase-status ${estado}">
-                        ${textoEstado}
-                    </div>
-                </div>
+<div class="bracket-meta">
+    <div>📅 ${formatearFechaPartido(partido.fecha)}</div>
+
+    <div class="bracket-footer">
+        <div class="bracket-phase-status ${estado}">
+            ${textoEstado}
+        </div>
+
+        ${crearIconosCanales(partido)}
+    </div>
+</div>
             </div>
         `;
     }
