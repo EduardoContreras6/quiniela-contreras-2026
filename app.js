@@ -429,7 +429,7 @@ item.innerHTML = `
 
                         return `
                             <div class="equipo ${estado}">
-                                ${banderas[e] || "🏳️"} ${e}
+                                ${banderas[e] || "🏳️"} ${nombrePais(e)}
                             </div>
                         `;
 
@@ -628,7 +628,7 @@ const marcador = obtenerMarcadorPartido(partido);
                 <div class="proximo-partido">
 
                     <div class="partido-equipos">
-                        ${banderas[partido.local] || "🏳️"}${nombrePais(partido.local)}
+                        ${banderas[partido.local] || "🏳️"} ${nombrePais(partido.local)}
                         <span>${marcador}</span>
                         ${banderas[partido.visitante] || "🏳️"} ${nombrePais(partido.visitante)}
                     </div>
