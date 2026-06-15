@@ -586,7 +586,14 @@ function actualizarPodio(ranking, campeon, subcampeon, tercerLugar) {
 
         const textoEstado = equipoPremiado
     ? `${banderas[equipoPremiado] || "🏳️"} ${nombrePais(equipoPremiado)}`
-    : `🟢 ${persona.equiposVivos} vivos · ⭐ ${persona.puntos} pts · ⚽ ${persona.golesFavor} goles`;
+    : `
+        <span class="podio-stats-linea">
+            🟢 ${persona.equiposVivos} vivos · ⭐ ${persona.puntos} puntos
+        </span>
+        <span class="podio-stats-linea podio-goles-linea">
+            ⚽ ${persona.golesFavor} goles
+        </span>
+    `;
 
         return `
             <div class="podio-card">
