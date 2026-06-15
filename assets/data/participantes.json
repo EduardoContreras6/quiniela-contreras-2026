@@ -21,7 +21,7 @@
   },
   {
     "nombre": "Ari",
-    "foto": "sara.jpg",
+    "foto": "ari.jpg",
     "equipos": ["Arabia Saudita", "Curazao", "Panama"]
   },
   {
@@ -36,7 +36,7 @@
   },
   {
     "nombre": "Sara",
-    "foto": "",
+    "foto": "sara.jpg",
     "equipos": ["Austria", "Corea del Sur", "Egipto"]
   },
   {
@@ -51,7 +51,7 @@
   },
   {
     "nombre": "Deni",
-    "foto": "",
+    "foto": "deni.jpg",
     "equipos": ["Costa de Marfil", "Portugal", "Marruecos"]
   },
   {
