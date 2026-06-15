@@ -1227,3 +1227,51 @@ body{
         max-width:85vw !important;
     }
 }
+
+.partido-footer{
+    margin-top:8px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.canales-partido{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:6px;
+    flex-wrap:wrap;
+}
+
+.canal-logo{
+    width:28px;
+    height:28px;
+    object-fit:contain;
+    background:#ffffff;
+    border-radius:50%;
+    padding:3px;
+    border:1px solid #374151;
+}
+
+.canal-texto{
+    font-size:.65rem;
+    font-weight:800;
+    background:#1f2937;
+    color:#e5e7eb;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:4px 6px;
+}
+
+@media(max-width:768px){
+    .canal-logo{
+        width:24px;
+        height:24px;
+        padding:2px;
+    }
+
+    .partido-footer{
+        gap:6px;
+    }
+}
