@@ -49,7 +49,6 @@ const banderas = {
 };
 const logosCanales = {
     vix: "assets/canales/vix.png",
-    televisa: "assets/canales/televisa.png",
     azteca: "assets/canales/azteca.png",
     canal5: "assets/canales/canal5.png",
     lasestrellas: "assets/canales/lasestrellas.png"
