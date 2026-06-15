@@ -507,6 +507,27 @@ function obtenerProximosPartidos(equiposPersona, partidos) {
         .slice(0, 3);
 }
 
+function obtenerMarcadorPartido(partido) {
+
+    const tieneGoles =
+        partido.golesLocal !== null &&
+        partido.golesLocal !== undefined &&
+        partido.golesVisitante !== null &&
+        partido.golesVisitante !== undefined;
+
+    if (tieneGoles) {
+        return `${partido.golesLocal} - ${partido.golesVisitante}`;
+    }
+
+    const estado = partido.estado || "programado";
+
+    if (estado === "en-vivo") {
+        return "-";
+    }
+
+    return "vs";
+}
+
 function crearHTMLProximosPartidos(persona, partidos) {
 
     const proximos = obtenerProximosPartidos(
@@ -531,10 +552,7 @@ function crearHTMLProximosPartidos(persona, partidos) {
             const fecha = formatearFechaPartido(partido.fecha);
             const estado = partido.estado || "programado";
 
-            const marcador =
-                estado === "finalizado" || estado === "en-vivo"
-                    ? `${partido.golesLocal} - ${partido.golesVisitante}`
-                    : "vs";
+const marcador = obtenerMarcadorPartido(partido);
 
             const textoEstado = estado
                 .replace("-", " ")
