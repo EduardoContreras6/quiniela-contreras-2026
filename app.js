@@ -236,6 +236,65 @@ function crearIconosCanales(partido) {
     `;
 }
 
+function calcularEstadisticasEquipos(partidos) {
+
+    const estadisticas = {};
+
+    function asegurarEquipo(equipo) {
+        if (!estadisticas[equipo]) {
+            estadisticas[equipo] = {
+                puntos: 0,
+                golesFavor: 0
+            };
+        }
+    }
+
+    partidos.forEach(partido => {
+
+        const esFaseGrupos =
+            partido.fase &&
+            partido.fase.startsWith("Grupo ");
+
+        if (!esFaseGrupos) return;
+
+        const estado = partido.estado || "programado";
+
+        if (estado !== "finalizado" && estado !== "en-vivo") return;
+
+        const tieneGoles =
+            partido.golesLocal !== null &&
+            partido.golesLocal !== undefined &&
+            partido.golesVisitante !== null &&
+            partido.golesVisitante !== undefined;
+
+        if (!tieneGoles) return;
+
+        const local = partido.local;
+        const visitante = partido.visitante;
+
+        const golesLocal = Number(partido.golesLocal);
+        const golesVisitante = Number(partido.golesVisitante);
+
+        asegurarEquipo(local);
+        asegurarEquipo(visitante);
+
+        estadisticas[local].golesFavor += golesLocal;
+        estadisticas[visitante].golesFavor += golesVisitante;
+
+        if (golesLocal > golesVisitante) {
+            estadisticas[local].puntos += 3;
+        } else if (golesVisitante > golesLocal) {
+            estadisticas[visitante].puntos += 3;
+        } else {
+            estadisticas[local].puntos += 1;
+            estadisticas[visitante].puntos += 1;
+        }
+
+    });
+
+    return estadisticas;
+}
+
 async function cargarParticipantes() {
 
     const response = await fetch("assets/data/participantes.json");
@@ -255,6 +314,8 @@ const partidos = aplicarTransmisiones(
         partidos,
         estadosManual
     );
+
+    const estadisticasEquipos = calcularEstadisticasEquipos(partidos);
 
    renderizarFaseGrupos(partidos, participantes);
    renderizarBracket(partidos, participantes);
@@ -281,16 +342,26 @@ const partidos = aplicarTransmisiones(
 
 participantes.forEach(participante => {
 
-    let vivosPersona = 0;
-    let tieneCampeon = false;
-    let tieneSubcampeon = false;
-    let tieneTercerLugar = false;
+let vivosPersona = 0;
+let puntosPersona = 0;
+let golesFavorPersona = 0;
+let tieneCampeon = false;
+let tieneSubcampeon = false;
+let tieneTercerLugar = false;
 
     participante.equipos.forEach(equipo => {
 
         totalEquipos++;
 
         const estado = estados[equipo] || "vivo";
+
+        const estadisticaEquipo = estadisticasEquipos[equipo] || {
+    puntos: 0,
+    golesFavor: 0
+};
+
+puntosPersona += estadisticaEquipo.puntos;
+golesFavorPersona += estadisticaEquipo.golesFavor;
 
         if (estado === "vivo") {
             equiposVivos++;
@@ -319,6 +390,8 @@ if (estado === "tercer-lugar") {
     });
 
 participante.equiposVivos = vivosPersona;
+participante.puntos = puntosPersona;
+participante.golesFavor = golesFavorPersona;
 participante.tieneCampeon = tieneCampeon;
 participante.tieneSubcampeon = tieneSubcampeon;
 participante.tieneTercerLugar = tieneTercerLugar;
@@ -349,6 +422,14 @@ const ranking = [...participantes].sort((a, b) => {
 
     if (b.equiposVivos !== a.equiposVivos) {
         return b.equiposVivos - a.equiposVivos;
+    }
+
+    if (b.puntos !== a.puntos) {
+        return b.puntos - a.puntos;
+    }
+
+    if (b.golesFavor !== a.golesFavor) {
+        return b.golesFavor - a.golesFavor;
     }
 
     return a.nombre.localeCompare(
@@ -383,6 +464,16 @@ const banderasRanking = persona.equipos
     })
     .join("");
 
+    const textoPremio = persona.tieneCampeon
+    ? "🏆 Tiene al campeón"
+    : persona.tieneSubcampeon
+        ? "🥈 Tiene al subcampeón"
+        : persona.tieneTercerLugar
+            ? "🥉 Tiene al tercer lugar"
+            : "";
+
+const textoEstadisticas = `🟢 ${persona.equiposVivos} vivos · ⭐ ${persona.puntos} pts · ⚽ ${persona.golesFavor} Goles a Favor`;
+
 item.innerHTML = `
     <div class="ranking-info">
 
@@ -398,17 +489,10 @@ item.innerHTML = `
                 ${banderasRanking}
             </div>
 
-            <small>
-                ${
-    persona.tieneCampeon
-        ? "🏆 Tiene al campeón"
-        : persona.tieneSubcampeon
-            ? "🥈 Tiene al subcampeón"
-            : persona.tieneTercerLugar
-                ? "🥉 Tiene al tercer lugar"
-                : `🟢 ${persona.equiposVivos} vivos / ⚽ ${persona.equipos.length} equipos`
-}
-            </small>
+<small>
+    ${textoPremio ? `${textoPremio}<br>` : ""}
+    ${textoEstadisticas}
+</small>
 
         </div>
 
