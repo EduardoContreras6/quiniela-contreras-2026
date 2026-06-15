@@ -1,1 +1,122 @@
+[
+{
+"default": true,
+"canales": ["vix"]
+},
 
+{
+"local": "Mexico",
+"visitante": "Sudafrica",
+"fase": "Grupo A",
+"canales": ["vix", "canal5", "lasestrellas", "azteca"]
+},
+{
+"local": "Estados Unidos",
+"visitante": "Paraguay",
+"fase": "Grupo D",
+"canales": ["vix", "canal5", "azteca"]
+},
+{
+"local": "Brasil",
+"visitante": "Marruecos",
+"fase": "Grupo C",
+"canales": ["vix", "canal5", "azteca"]
+},
+{
+"local": "Paises Bajos",
+"visitante": "Japon",
+"fase": "Grupo F",
+"canales": ["vix", "canal5", "azteca"]
+},
+{
+"local": "Argentina",
+"visitante": "Argelia",
+"fase": "Grupo J",
+"canales": ["vix", "canal5", "azteca"]
+},
+{
+"local": "Inglaterra",
+"visitante": "Croacia",
+"fase": "Grupo L",
+"canales": ["vix", "canal5", "azteca"]
+},
+{
+"local": "Mexico",
+"visitante": "Corea del Sur",
+"fase": "Grupo A",
+"canales": ["vix", "canal5", "azteca"]
+},
+{
+"local": "Brasil",
+"visitante": "Haiti",
+"fase": "Grupo C",
+"canales": ["vix", "canal5", "azteca"]
+},
+{
+"local": "Paises Bajos",
+"visitante": "Suecia",
+"fase": "Grupo F",
+"canales": ["vix", "canal5", "azteca"]
+},
+{
+"local": "España",
+"visitante": "Arabia Saudita",
+"fase": "Grupo H",
+"canales": ["vix", "canal5", "azteca"]
+},
+{
+"local": "Noruega",
+"visitante": "Senegal",
+"fase": "Grupo I",
+"canales": ["vix", "canal5", "azteca"]
+},
+{
+"local": "Colombia",
+"visitante": "Republica Democratica del Congo",
+"fase": "Grupo K",
+"canales": ["vix", "canal5", "azteca"]
+},
+{
+"local": "Republica Checa",
+"visitante": "Mexico",
+"fase": "Grupo A",
+"canales": ["vix", "canal5", "azteca"]
+},
+{
+"local": "Ecuador",
+"visitante": "Alemania",
+"fase": "Grupo E",
+"canales": ["vix", "canal5", "azteca"]
+},
+{
+"local": "Uruguay",
+"visitante": "España",
+"fase": "Grupo H",
+"canales": ["vix", "canal5", "azteca"]
+},
+{
+"local": "Panama",
+"visitante": "Inglaterra",
+"fase": "Grupo L",
+"canales": ["vix", "canal5", "azteca"]
+},
+{
+"local": "Colombia",
+"visitante": "Portugal",
+"fase": "Grupo K",
+"canales": ["vix", "canal5", "azteca"]
+},
+
+{
+"fase": "Semifinales",
+"canales": ["vix", "canal5", "lasestrellas", "azteca"]
+},
+{
+"fase": "Tercer lugar",
+"canales": ["vix"]
+},
+{
+"fase": "Final",
+"canales": ["vix", "canal5", "lasestrellas", "azteca"]
+}
+]
