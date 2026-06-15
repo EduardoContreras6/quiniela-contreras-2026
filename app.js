@@ -506,8 +506,8 @@ item.innerHTML = `
                        style="width:120px;height:120px;border-radius:50%;object-fit:cover;">`
                 : "";
 
-            const resumenParticipante = `
-    <div class="modal-estadisticas"
+const resumenParticipante = `
+    <div class="modal-estadisticas modal-estadisticas-horizontal">
 
         <div class="modal-stat">
             <span>⭐</span>
@@ -529,19 +529,23 @@ item.innerHTML = `
                 partidos
             );
 
-            document.getElementById("modal-body").innerHTML = `
-                <div style="text-align:center">
+document.getElementById("modal-body").innerHTML = `
+    <div style="text-align:center">
 
-                    ${foto}
+        ${foto}
 
-                    <h2>${persona.nombre}</h2>
+        <h2>${persona.nombre}</h2>
 
-                    ${resumenParticipante}
+        <div class="modal-equipos">
+            ${equipos}
+        </div>
 
-                    ${proximosPartidosHTML}
+        ${resumenParticipante}
 
-                </div>
-            `;
+        ${proximosPartidosHTML}
+
+    </div>
+`;
 
     document.getElementById("modal").style.display = "block";
 
