@@ -1403,3 +1403,16 @@ body{
         line-height:1.15;
     }
 }
+.podio-stats-linea{
+    display:block;
+    text-align:center;
+}
+
+.podio-goles-linea{
+    padding-left:22px;
+}
+@media(max-width:768px){
+    .podio-goles-linea{
+        padding-left:14px;
+    }
+}
