@@ -472,7 +472,7 @@ const banderasRanking = persona.equipos
             ? "🥉 Tiene al tercer lugar"
             : "";
 
-const textoEstadisticas = `🟢 ${persona.equiposVivos} vivos · ⭐ ${persona.puntos} pts · ⚽ ${persona.golesFavor} Goles a Favor`;
+const textoEstadisticas = `🟢 ${persona.equiposVivos} vivos · ⭐ ${persona.puntos} puntos · ⚽ ${persona.golesFavor} goles a favor`;
 
 item.innerHTML = `
     <div class="ranking-info">
