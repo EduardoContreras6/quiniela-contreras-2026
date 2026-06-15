@@ -10,7 +10,7 @@
     "equipos": ["Brasil", "Bosnia y Herzegovina", "Alemania"]
   },
   {
-    "nombre": "Jose",
+    "nombre": "José",
     "foto": "jose.jpg",
     "equipos": ["Belgica", "Qatar", "Australia", "Suiza", "Mexico", "Croacia"]
   },
@@ -30,7 +30,7 @@
     "equipos": ["España", "Ghana", "Escocia"]
   },
   {
-    "nombre": "Cesar",
+    "nombre": "César",
     "foto": "cesar.jpg",
     "equipos": ["Estados Unidos", "Nueva Zelanda", "Turquia"]
   },
@@ -55,7 +55,7 @@
     "equipos": ["Costa de Marfil", "Portugal", "Marruecos"]
   },
   {
-    "nombre": "Rene",
+    "nombre": "René",
     "foto": "rene.jpg",
     "equipos": ["Suecia", "Senegal", "Paraguay"]
   },
@@ -65,7 +65,7 @@
     "equipos": ["Argentina", "Cabo Verde", "Tunez"]
   },
   {
-    "nombre": "Angel",
+    "nombre": "Ángel",
     "foto": "angel.jpg",
     "equipos": ["Republica Democratica del Congo", "Uzbekistan", "Noruega"]
   },
