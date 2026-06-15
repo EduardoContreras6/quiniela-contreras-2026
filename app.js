@@ -47,6 +47,13 @@ const banderas = {
     "Uzbekistan": "🇺🇿",
     "Alemania": "🇩🇪"
 };
+const logosCanales = {
+    vix: "assets/canales/vix.png",
+    televisa: "assets/canales/televisa.png",
+    azteca: "assets/canales/azteca.png",
+    canal5: "assets/canales/canal5.png",
+    lasestrellas: "assets/canales/lasestrellas.png"
+};
 const rankingContainer = document.getElementById("ranking-container");
 const bracketContainer = document.getElementById("bracket-container");
 const gruposContainer = document.getElementById("grupos-container");
@@ -77,6 +84,93 @@ function actualizarContador() {
 
 actualizarContador();
 
+async function cargarTransmisiones() {
+
+    try {
+        const response = await fetch(
+            `assets/data/transmisiones.json?t=${Date.now()}`
+        );
+
+        if (!response.ok) {
+            throw new Error("No se pudo cargar transmisiones.json");
+        }
+
+        return await response.json();
+
+    } catch (error) {
+        console.warn("No se pudo cargar transmisiones.json", error);
+        return [];
+    }
+}
+
+function clavePartido(local, visitante, fase) {
+    return `${[local, visitante].sort().join(" vs ")} | ${fase}`;
+}
+
+function buscarTransmision(partido, transmisiones) {
+
+    const exacta = transmisiones.find(item =>
+        item.local &&
+        item.visitante &&
+        clavePartido(item.local, item.visitante, item.fase || partido.fase) ===
+        clavePartido(partido.local, partido.visitante, partido.fase)
+    );
+
+    if (exacta) return exacta;
+
+    const porFase = transmisiones.find(item =>
+        !item.local &&
+        !item.visitante &&
+        item.fase === partido.fase
+    );
+
+    if (porFase) return porFase;
+
+    const defaultTransmision = transmisiones.find(item => item.default);
+
+    return defaultTransmision || {
+        canales: []
+    };
+}
+
+function aplicarTransmisiones(partidos, transmisiones) {
+
+    return partidos.map(partido => ({
+        ...partido,
+        transmision: buscarTransmision(partido, transmisiones)
+    }));
+}
+
+function crearIconosCanales(partido) {
+
+    const canales = partido.transmision?.canales || [];
+
+    if (canales.length === 0) {
+        return "";
+    }
+
+    return `
+        <div class="canales-partido">
+            ${canales.map(canal => {
+                const logo = logosCanales[canal];
+
+                if (!logo) {
+                    return `<span class="canal-texto">${canal}</span>`;
+                }
+
+                return `
+                    <img 
+                        src="${logo}" 
+                        class="canal-logo" 
+                        alt="${canal}" 
+                        title="${canal}"
+                    >
+                `;
+            }).join("")}
+        </div>
+    `;
+}
+
 async function cargarParticipantes() {
 
     const response = await fetch("assets/data/participantes.json");
@@ -84,7 +178,13 @@ async function cargarParticipantes() {
     const estadosResponse = await fetch("assets/data/estados.json");
     const estadosManual = await estadosResponse.json();
 
-    const partidos = await cargarPartidosAutomaticos();
+    const partidosBase = await cargarPartidosAutomaticos();
+const transmisiones = await cargarTransmisiones();
+
+const partidos = aplicarTransmisiones(
+    partidosBase,
+    transmisiones
+);
 
     const estados = calcularEstadosAutomaticos(
         partidos,
@@ -458,9 +558,13 @@ function crearHTMLProximosPartidos(persona, partidos) {
                         ${partido.fase}
                     </div>
 
-                    <div class="estado-partido ${estado}">
-                        ${textoEstado}
-                    </div>
+                    <div class="partido-footer">
+    <div class="estado-partido ${estado}">
+        ${textoEstado}
+    </div>
+
+    ${crearIconosCanales(partido)}
+</div>
 
                 </div>
             `;
@@ -546,9 +650,13 @@ function renderizarFaseGrupos(partidos, participantes) {
                     📅 ${formatearFechaPartido(partido.fecha)}
                 </div>
 
-                <div class="estado-partido ${estado}">
-                    ${textoEstado}
-                </div>
+                <div class="partido-footer">
+    <div class="estado-partido ${estado}">
+        ${textoEstado}
+    </div>
+
+    ${crearIconosCanales(partido)}
+</div>
 
             </div>
         `;
