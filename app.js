@@ -585,8 +585,8 @@ function actualizarPodio(ranking, campeon, subcampeon, tercerLugar) {
             : `<div class="podio-avatar podio-sin-foto">?</div>`;
 
         const textoEstado = equipoPremiado
-            ? `${banderas[equipoPremiado] || "🏳️"} ${nombrePais(equipoPremiado)}`
-            : `🟢 ${persona.equiposVivos} equipos vivos`;
+    ? `${banderas[equipoPremiado] || "🏳️"} ${nombrePais(equipoPremiado)}`
+    : `🟢 ${persona.equiposVivos} vivos · ⭐ ${persona.puntos} pts · ⚽ ${persona.golesFavor} goles`;
 
         return `
             <div class="podio-card">
