@@ -48,6 +48,71 @@ const banderas = {
     "Uzbekistan": "🇺🇿",
     "Alemania": "🇩🇪"
 };
+const nombresPaises = {
+    "Mexico": "México",
+    "Sudafrica": "Sudáfrica",
+    "Republica Checa": "República Checa",
+    "Corea del Sur": "Corea del Sur",
+
+    "Canada": "Canadá",
+    "Bosnia y Herzegovina": "Bosnia y Herzegovina",
+    "Qatar": "Qatar",
+    "Suiza": "Suiza",
+
+    "Brasil": "Brasil",
+    "Marruecos": "Marruecos",
+    "Haiti": "Haití",
+    "Escocia": "Escocia",
+
+    "Estados Unidos": "Estados Unidos",
+    "Paraguay": "Paraguay",
+    "Australia": "Australia",
+    "Turquia": "Turquía",
+
+    "Alemania": "Alemania",
+    "Curazao": "Curazao",
+    "Costa de Marfil": "Costa de Marfil",
+    "Ecuador": "Ecuador",
+
+    "Paises Bajos": "Países Bajos",
+    "Japon": "Japón",
+    "Suecia": "Suecia",
+    "Tunez": "Túnez",
+
+    "Belgica": "Bélgica",
+    "Egipto": "Egipto",
+    "Iran": "Irán",
+    "Nueva Zelanda": "Nueva Zelanda",
+
+    "España": "España",
+    "Cabo Verde": "Cabo Verde",
+    "Arabia Saudita": "Arabia Saudita",
+    "Uruguay": "Uruguay",
+
+    "Francia": "Francia",
+    "Senegal": "Senegal",
+    "Irak": "Irak",
+    "Noruega": "Noruega",
+
+    "Argentina": "Argentina",
+    "Argelia": "Argelia",
+    "Austria": "Austria",
+    "Jordania": "Jordania",
+
+    "Portugal": "Portugal",
+    "Republica Democratica del Congo": "República Democrática del Congo",
+    "Uzbekistan": "Uzbekistán",
+    "Colombia": "Colombia",
+
+    "Inglaterra": "Inglaterra",
+    "Croacia": "Croacia",
+    "Ghana": "Ghana",
+    "Panama": "Panamá"
+};
+
+function nombrePais(equipo) {
+    return nombresPaises[equipo] || equipo;
+}
 const logosCanales = {
     vix: "assets/canales/vix.png",
     azteca: "assets/canales/azteca.png",
@@ -311,7 +376,7 @@ const banderasRanking = persona.equipos
         const estado = estados[equipo] || "vivo";
 
         return `
-            <span class="ranking-bandera ${estado}" title="${equipo}">
+            <span class="ranking-bandera ${estado}" title="${nombrePais(equipo)}">
                 ${banderas[equipo] || "🏳️"}
             </span>
         `;
@@ -428,7 +493,7 @@ function actualizarPodio(ranking, campeon, subcampeon, tercerLugar) {
             : `<div class="podio-avatar podio-sin-foto">?</div>`;
 
         const textoEstado = equipoPremiado
-            ? `${banderas[equipoPremiado] || "🏳️"} ${equipoPremiado}`
+            ? `${banderas[equipoPremiado] || "🏳️"} ${nombrePais(equipoPremiado)}`
             : `🟢 ${persona.equiposVivos} equipos vivos`;
 
         return `
@@ -563,9 +628,9 @@ const marcador = obtenerMarcadorPartido(partido);
                 <div class="proximo-partido">
 
                     <div class="partido-equipos">
-                        ${banderas[partido.local] || "🏳️"} ${partido.local}
+                        ${banderas[partido.local] || "🏳️"}${nombrePais(partido.local)}
                         <span>${marcador}</span>
-                        ${banderas[partido.visitante] || "🏳️"} ${partido.visitante}
+                        ${banderas[partido.visitante] || "🏳️"} ${nombrePais(partido.visitante)}
                     </div>
 
                     <div class="partido-detalle">
@@ -636,7 +701,7 @@ function renderizarFaseGrupos(partidos, participantes) {
 
         return `
             <div class="grupo-equipo">
-                <span>${banderas[equipo] || "🏳️"} ${equipo}</span>
+                <span>${banderas[equipo] || "🏳️"} ${nombrePais(equipo)}</span>
                 ${fotoDueno}
             </div>
         `;
