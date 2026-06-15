@@ -1300,3 +1300,43 @@ body{
         height:21px;
     }
 }
+
+.modal-estadisticas{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:10px;
+    margin:18px 0 24px;
+}
+
+.modal-stat{
+    background:#0d1117;
+    border:1px solid #374151;
+    border-radius:16px;
+    padding:12px 8px;
+    text-align:center;
+}
+
+.modal-stat span{
+    display:block;
+    font-size:1.3rem;
+    margin-bottom:4px;
+}
+
+.modal-stat strong{
+    display:block;
+    font-size:1.4rem;
+    color:#ffffff;
+}
+
+.modal-stat small{
+    display:block;
+    margin-top:3px;
+    font-size:.72rem;
+    color:#9ca3af;
+}
+
+@media(max-width:480px){
+    .modal-estadisticas{
+        grid-template-columns:1fr;
+    }
+}
