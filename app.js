@@ -1078,25 +1078,120 @@ function convertirFechaOpenFootball(date, time) {
     return `${date}T${hora}:${minuto}:00${signo}${horasOffset}:00`;
 }
 
+function normalizarEstadoPartido(estado) {
+
+    if (!estado) return null;
+
+    const estadoLimpio = estado
+        .toString()
+        .toLowerCase()
+        .trim();
+
+    if (
+        estadoLimpio === "en vivo" ||
+        estadoLimpio === "en-vivo" ||
+        estadoLimpio === "live"
+    ) {
+        return "en-vivo";
+    }
+
+    if (
+        estadoLimpio === "finalizado" ||
+        estadoLimpio === "complete" ||
+        estadoLimpio === "completed" ||
+        estadoLimpio === "finished"
+    ) {
+        return "finalizado";
+    }
+
+    if (
+        estadoLimpio === "programado" ||
+        estadoLimpio === "scheduled"
+    ) {
+        return "programado";
+    }
+
+    return estadoLimpio.replaceAll(" ", "-");
+}
+
+function calcularEstadoPorHorario(fechaISO, tieneMarcador) {
+
+    if (tieneMarcador) {
+        return "finalizado";
+    }
+
+    if (!fechaISO) {
+        return "programado";
+    }
+
+    const ahora = new Date();
+    const inicio = new Date(fechaISO);
+
+    const finEstimado = new Date(
+        inicio.getTime() + 3 * 60 * 60 * 1000
+    );
+
+    if (ahora >= inicio && ahora <= finEstimado) {
+        return "en-vivo";
+    }
+
+    return "programado";
+}
+
 function transformarPartidoOpenFootball(partido) {
 
     const local = normalizarNombreEquipo(partido.team1);
     const visitante = normalizarNombreEquipo(partido.team2);
+
+    const fecha = convertirFechaOpenFootball(
+        partido.date,
+        partido.time
+    );
 
     const tieneMarcador =
         partido.score &&
         partido.score.ft &&
         Array.isArray(partido.score.ft);
 
+    const estadoAPI = normalizarEstadoPartido(
+        partido.status || partido.estado
+    );
+
+    const estado = estadoAPI || calcularEstadoPorHorario(
+        fecha,
+        tieneMarcador
+    );
+
     return {
         local: local,
         visitante: visitante,
-        fecha: convertirFechaOpenFootball(partido.date, partido.time),
+        fecha: fecha,
         fase: convertirFase(partido),
-        estado: tieneMarcador ? "finalizado" : "programado",
+        estado: estado,
         golesLocal: tieneMarcador ? partido.score.ft[0] : null,
         golesVisitante: tieneMarcador ? partido.score.ft[1] : null
     };
+}
+
+function normalizarPartidosLocales(partidos) {
+
+    return partidos.map(partido => {
+
+        const tieneMarcador =
+            partido.golesLocal !== null &&
+            partido.golesLocal !== undefined &&
+            partido.golesVisitante !== null &&
+            partido.golesVisitante !== undefined;
+
+        const estado = normalizarEstadoPartido(partido.estado) ||
+            calcularEstadoPorHorario(partido.fecha, tieneMarcador);
+
+        return {
+            ...partido,
+            estado: estado
+        };
+
+    });
 }
 
 async function cargarPartidosAutomaticos() {
@@ -1134,7 +1229,9 @@ async function cargarPartidosAutomaticos() {
         ultimaCargaPartidos = new Date();
         mostrarInfoDatos();
 
-        return await partidosResponse.json();
+        const partidosLocales = await partidosResponse.json();
+
+return normalizarPartidosLocales(partidosLocales);
     }
 }
 
