@@ -520,23 +520,13 @@ item.addEventListener("click", () => {
         })
         .join("");
 
-    const resumenParticipante = `
-        <div class="modal-estadisticas modal-estadisticas-horizontal">
-
-            <div class="modal-stat">
-                <span>⭐</span>
-                <strong>${persona.puntos}</strong>
-                <small>puntos</small>
-            </div>
-
-            <div class="modal-stat">
-                <span>⚽</span>
-                <strong>${persona.golesFavor}</strong>
-                <small>goles a favor</small>
-            </div>
-
-        </div>
-    `;
+const resumenParticipante = `
+    <div class="modal-resumen-linea">
+        <span>⭐ <strong>${persona.puntos}</strong> puntos</span>
+        <span class="separador-modal">·</span>
+        <span>⚽ <strong>${persona.golesFavor}</strong> goles a favor</span>
+    </div>
+`;
 
     const proximosPartidosHTML = crearHTMLProximosPartidos(
         persona,
