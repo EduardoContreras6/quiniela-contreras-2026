@@ -506,19 +506,23 @@ item.innerHTML = `
                        style="width:120px;height:120px;border-radius:50%;object-fit:cover;">`
                 : "";
 
-                const equipos = persona.equipos
-                    .map(e => {
+            const resumenParticipante = `
+    <div class="modal-estadisticas"
 
-                        const estado = estados[e] || "vivo";
+        <div class="modal-stat">
+            <span>⭐</span>
+            <strong>${persona.puntos}</strong>
+            <small>puntos</small>
+        </div>
 
-                        return `
-                            <div class="equipo ${estado}">
-                                ${banderas[e] || "🏳️"} ${nombrePais(e)}
-                            </div>
-                        `;
+        <div class="modal-stat">
+            <span>⚽</span>
+            <strong>${persona.golesFavor}</strong>
+            <small>goles a favor</small>
+        </div>
 
-                    })
-                    .join("");
+    </div>
+`;
 
             const proximosPartidosHTML = crearHTMLProximosPartidos(
                 persona,
@@ -532,11 +536,7 @@ item.innerHTML = `
 
                     <h2>${persona.nombre}</h2>
 
-                    ${equipos}
-
-                    <p style="margin-top:20px">
-                        ⚽ ${persona.equipos.length} equipos
-                    </p>
+                    ${resumenParticipante}
 
                     ${proximosPartidosHTML}
 
