@@ -1422,3 +1422,137 @@ body{
         padding-left:14px;
     }
 }
+
+.hero h1{
+    white-space:nowrap;
+    font-size:clamp(1.4rem, 5vw, 3rem);
+    line-height:1.05;
+}
+
+.subtitle{
+    margin-bottom:8px;
+}
+
+.partidos-hoy-hero{
+    width:100%;
+    max-width:100%;
+    margin-top:8px;
+}
+
+.partidos-hoy-lista{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:18px;
+    overflow-x:auto;
+    padding:4px 10px 8px;
+    scrollbar-width:none;
+}
+
+.partidos-hoy-lista::-webkit-scrollbar{
+    display:none;
+}
+
+.partido-hoy-card{
+    appearance:none;
+    border:none;
+    cursor:pointer;
+    color:white;
+    background:rgba(13,17,23,.35);
+    border:1px solid rgba(255,255,255,.22);
+    border-radius:14px;
+    padding:8px 12px;
+    min-width:180px;
+    text-align:center;
+    transition:transform .15s ease, background .15s ease;
+}
+
+.partido-hoy-card:hover{
+    transform:translateY(-2px);
+    background:rgba(13,17,23,.55);
+}
+
+.partido-hoy-equipos{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    font-size:.9rem;
+    font-weight:800;
+    white-space:nowrap;
+}
+
+.partido-hoy-equipos strong{
+    font-size:.75rem;
+    opacity:.8;
+}
+
+.partido-hoy-hora{
+    margin-top:4px;
+    font-size:.8rem;
+    font-weight:600;
+    opacity:.9;
+}
+
+.sin-partidos-hoy{
+    margin-top:8px;
+    font-size:.85rem;
+    opacity:.8;
+}
+
+@media(max-width:768px){
+
+    .hero{
+        padding:18px 6px 20px !important;
+    }
+
+    .hero h1{
+        font-size:1.35rem !important;
+        letter-spacing:-.5px;
+    }
+
+    .subtitle{
+        font-size:.95rem;
+        margin-bottom:6px;
+    }
+
+    .partidos-hoy-lista{
+        justify-content:flex-start;
+        gap:8px;
+        padding:2px 8px 6px;
+    }
+
+    .partido-hoy-card{
+        min-width:132px;
+        padding:6px 8px;
+        border-radius:12px;
+    }
+
+    .partido-hoy-equipos{
+        font-size:.72rem;
+        gap:4px;
+    }
+
+    .partido-hoy-equipos strong{
+        font-size:.62rem;
+    }
+
+    .partido-hoy-hora{
+        font-size:.68rem;
+    }
+}
+
+@media(max-width:390px){
+
+    .hero h1{
+        font-size:1.18rem !important;
+    }
+
+    .partido-hoy-card{
+        min-width:122px;
+    }
+
+    .partido-hoy-equipos{
+        font-size:.68rem;
+    }
+}
