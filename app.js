@@ -1777,9 +1777,8 @@ function mostrarInfoDatos() {
         : "No disponible";
 
     infoDatos.innerHTML = `
-        📡 Partidos: <strong>${fuentePartidos}</strong>
-        · Última carga: ${fecha}
-    `;
+    📡 <strong>${fuentePartidos}</strong> · ${fecha}
+`;
 }
 
 cargarParticipantes().catch(error => {
