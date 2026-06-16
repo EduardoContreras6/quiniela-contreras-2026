@@ -449,7 +449,7 @@ function activarClicksPartidosModal() {
 
                 if (!partido) return;
 
-                document.getElementById("modal").style.display = "none";
+                cerrarModalParticipante();
 
                 irASeccionPartido(partido);
 
@@ -537,6 +537,92 @@ function renderizarPartidosHoyHero(partidos) {
 
         });
 }
+let cerrandoPorBotonAtras = false;
+
+function seccionesDetalle() {
+    return [
+        document.getElementById("fase-grupos-detalle"),
+        document.getElementById("fase-final-detalle")
+    ].filter(Boolean);
+}
+
+function modalEstaAbierto() {
+    const modal = document.getElementById("modal");
+    return modal && modal.style.display === "block";
+}
+
+function cerrarModalParticipante() {
+    const modal = document.getElementById("modal");
+
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
+function cerrarSeccionesAbiertas() {
+
+    cerrandoPorBotonAtras = true;
+
+    seccionesDetalle().forEach(detalle => {
+        detalle.open = false;
+    });
+
+    setTimeout(() => {
+        cerrandoPorBotonAtras = false;
+    }, 0);
+}
+
+function agregarPasoHistorial(tipo) {
+
+    if (!window.history || !history.pushState) return;
+
+    history.pushState(
+        { quinielaVista: tipo },
+        "",
+        window.location.href
+    );
+}
+
+function activarBotonAtrasCelular() {
+
+    if (!window.history || !history.pushState) return;
+
+    history.replaceState(
+        { quinielaVista: "inicio" },
+        "",
+        window.location.href
+    );
+
+    seccionesDetalle().forEach(detalle => {
+
+        detalle.addEventListener("toggle", () => {
+
+            if (cerrandoPorBotonAtras) return;
+
+            if (detalle.open) {
+                agregarPasoHistorial(detalle.id);
+            }
+
+        });
+
+    });
+
+    window.addEventListener("popstate", () => {
+
+        if (modalEstaAbierto()) {
+            cerrarModalParticipante();
+            return;
+        }
+
+        const haySeccionAbierta = seccionesDetalle()
+            .some(detalle => detalle.open);
+
+        if (haySeccionAbierta) {
+            cerrarSeccionesAbiertas();
+        }
+
+    });
+}
 
 function abrirModalParticipante(persona, estados, partidos) {
 
@@ -593,6 +679,8 @@ function abrirModalParticipante(persona, estados, partidos) {
     document.getElementById("modal").style.display = "block";
 
     activarClicksPartidosModal();
+
+    agregarPasoHistorial("modal");
 }
 
 async function cargarParticipantes() {
@@ -1849,17 +1937,17 @@ document
     .getElementById("cerrar-modal")
     .addEventListener("click", () => {
 
-        document.getElementById("modal").style.display =
-            "none";
+        cerrarModalParticipante();
 
 });
+activarBotonAtrasCelular();
 
 document
     .getElementById("modal")
     .addEventListener("click", (event) => {
 
         if (event.target.id === "modal") {
-            document.getElementById("modal").style.display = "none";
+            cerrarModalParticipante();
         }
 
     });
@@ -1867,7 +1955,7 @@ document
 document.addEventListener("keydown", (event) => {
 
     if (event.key === "Escape") {
-        document.getElementById("modal").style.display = "none";
+        cerrarModalParticipante();
     }
 
 });
