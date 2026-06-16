@@ -813,15 +813,15 @@ function actualizarPodio(ranking, campeon, subcampeon, tercerLugar, estados, par
             : `<div class="podio-avatar podio-sin-foto">?</div>`;
 
         const textoEstado = equipoPremiado
-    ? `${banderas[equipoPremiado] || "🏳️"} ${nombrePais(equipoPremiado)}`
-    : `
-        <span class="podio-stats-linea">
-            🟢 ${persona.equiposVivos} vivos · ⭐ ${persona.puntos} puntos
-        </span>
-        <span class="podio-stats-linea podio-goles-linea">
-            ⚽ ${persona.golesFavor} goles
-        </span>
-    `;
+            ? `${banderas[equipoPremiado] || "🏳️"} ${nombrePais(equipoPremiado)}`
+            : `
+                <span class="podio-stats-linea">
+                    🟢 ${persona.equiposVivos} vivos · ⭐ ${persona.puntos} puntos
+                </span>
+                <span class="podio-stats-linea podio-goles-linea">
+                    ⚽ ${persona.golesFavor} goles
+                </span>
+            `;
 
         return `
             <div class="podio-card">
@@ -836,38 +836,6 @@ function actualizarPodio(ranking, campeon, subcampeon, tercerLugar, estados, par
                 <small>${etiqueta}</small>
             </div>
         `;
-        const tarjetasPodio = [
-    {
-        id: "primero",
-        persona: primero
-    },
-    {
-        id: "segundo",
-        persona: segundo
-    },
-    {
-        id: "tercero",
-        persona: tercero
-    }
-];
-
-tarjetasPodio.forEach(item => {
-
-    const elemento = document.getElementById(item.id);
-
-    if (!elemento || !item.persona) return;
-
-    elemento.style.cursor = "pointer";
-
-    elemento.onclick = () => {
-        abrirModalParticipante(
-            item.persona,
-            estados,
-            partidos
-        );
-    };
-
-});
     }
 
     document.getElementById("primero").innerHTML =
@@ -893,6 +861,28 @@ tarjetasPodio.forEach(item => {
             tercerLugar ? "Tercer lugar del Mundial" : "Tercer lugar provisional",
             tercerLugar
         );
+
+    [
+        { id: "primero", persona: primero },
+        { id: "segundo", persona: segundo },
+        { id: "tercero", persona: tercero }
+    ].forEach(item => {
+
+        const elemento = document.getElementById(item.id);
+
+        if (!elemento || !item.persona) return;
+
+        elemento.style.cursor = "pointer";
+
+        elemento.onclick = () => {
+            abrirModalParticipante(
+                item.persona,
+                estados,
+                partidos
+            );
+        };
+
+    });
 }
 
 function formatearFechaPartido(fechaISO) {
