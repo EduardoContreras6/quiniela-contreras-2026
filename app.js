@@ -126,6 +126,7 @@ const gruposContainer = document.getElementById("grupos-container");
 const MONTO_PREMIO = "$1,600";
 let fuentePartidos = "Sin cargar";
 let ultimaCargaPartidos = null;
+let partidosCargados = [];
 
 const OPENFOOTBALL_URL =
     "https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json";
@@ -432,6 +433,31 @@ function irASeccionPartido(partido) {
     }, 250);
 }
 
+function activarClicksPartidosModal() {
+
+    document
+        .querySelectorAll("#modal-body .proximo-partido[data-partido-id]")
+        .forEach(tarjeta => {
+
+            tarjeta.addEventListener("click", () => {
+
+                const idPartido = tarjeta.dataset.partidoId;
+
+                const partido = partidosCargados.find(p =>
+                    crearIdPartido(p) === idPartido
+                );
+
+                if (!partido) return;
+
+                document.getElementById("modal").style.display = "none";
+
+                irASeccionPartido(partido);
+
+            });
+
+        });
+}
+
 function textoSeguroId(texto) {
     return texto
         .toString()
@@ -565,6 +591,8 @@ function abrirModalParticipante(persona, estados, partidos) {
     `;
 
     document.getElementById("modal").style.display = "block";
+
+    activarClicksPartidosModal();
 }
 
 async function cargarParticipantes() {
@@ -581,6 +609,7 @@ const partidos = aplicarTransmisiones(
     partidosBase,
     transmisiones
 );
+    partidosCargados = partidos;
 
     const estados = calcularEstadosAutomaticos(
         partidos,
@@ -974,7 +1003,7 @@ const marcador = obtenerMarcadorPartido(partido);
                 .toUpperCase();
 
             return `
-                <div class="proximo-partido">
+                <div class="proximo-partido" data-partido-id="${crearIdPartido(partido)}">
 
                     <div class="partido-equipos">
                         ${banderas[partido.local] || "🏳️"} ${nombrePais(partido.local)}
