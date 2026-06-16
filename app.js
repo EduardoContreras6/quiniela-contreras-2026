@@ -618,8 +618,8 @@ const partidos = aplicarTransmisiones(
 
     const estadisticasEquipos = calcularEstadisticasEquipos(partidos);
 
-   renderizarFaseGrupos(partidos, participantes);
-   renderizarBracket(partidos, participantes);
+    renderizarFaseGrupos(partidos, participantes, estados);
+    renderizarBracket(partidos, participantes, estados);
     renderizarPartidosHoyHero(partidos);
 
     participantes.sort((a, b) =>
@@ -1040,7 +1040,40 @@ const marcador = obtenerMarcadorPartido(partido);
     `;
 }
 
-function renderizarFaseGrupos(partidos, participantes) {
+function activarClicksDuenosPartidos(contenedor, participantes, estados, partidos) {
+
+    if (!contenedor) return;
+
+    contenedor
+        .querySelectorAll("[data-dueno]")
+        .forEach(elemento => {
+
+            elemento.style.cursor = "pointer";
+
+            elemento.addEventListener("click", event => {
+
+                event.stopPropagation();
+
+                const nombreDueno = elemento.dataset.dueno;
+
+                const persona = participantes.find(p =>
+                    p.nombre === nombreDueno
+                );
+
+                if (!persona) return;
+
+                abrirModalParticipante(
+                    persona,
+                    estados,
+                    partidos
+                );
+
+            });
+
+        });
+}
+
+function renderizarFaseGrupos(partidos, participantes, estados) {
 
     if (!gruposContainer) return;
 
@@ -1072,8 +1105,8 @@ function renderizarFaseGrupos(partidos, participantes) {
         const fotoDueno = dueno
             ? (
                 dueno.foto
-                    ? `<img src="assets/fotos/${dueno.foto}" class="grupo-dueno-foto" title="${dueno.nombre}">`
-                    : `<div class="grupo-dueno-foto grupo-dueno-sin-foto" title="${dueno.nombre}">?</div>`
+                    ? `<img src="assets/fotos/${dueno.foto}" class="grupo-dueno-foto dueno-clickable" title="${dueno.nombre}" data-dueno="${dueno.nombre}">`
+                    : `<div class="grupo-dueno-foto grupo-dueno-sin-foto dueno-clickable" title="${dueno.nombre}" data-dueno="${dueno.nombre}">?</div>`
             )
             : "";
 
@@ -1145,9 +1178,15 @@ function renderizarFaseGrupos(partidos, participantes) {
     gruposContainer.innerHTML = htmlGrupos || `
         <p>No hay partidos de fase de grupos cargados todavía.</p>
     `;
+    activarClicksDuenosPartidos(
+    gruposContainer,
+    participantes,
+    estados,
+    partidos
+);
 }
 
-function renderizarBracket(partidos, participantes) {
+function renderizarBracket(partidos, participantes, estados) {
 
     if (!bracketContainer) return;
 
@@ -1192,8 +1231,8 @@ function renderizarBracket(partidos, participantes) {
         const fotoDueno = dueno
             ? (
                 dueno.foto
-                    ? `<img src="assets/fotos/${dueno.foto}" class="bracket-owner-photo" title="${dueno.nombre}">`
-                    : `<div class="bracket-owner-photo bracket-owner-empty" title="${dueno.nombre}">?</div>`
+                    ? `<img src="assets/fotos/${dueno.foto}" class="bracket-owner-photo dueno-clickable" title="${dueno.nombre}" data-dueno="${dueno.nombre}">`
+                    : `<div class="bracket-owner-photo bracket-owner-empty dueno-clickable" title="${dueno.nombre}" data-dueno="${dueno.nombre}">?</div>`
             )
             : `<div class="bracket-owner-photo bracket-owner-empty">-</div>`;
 
@@ -1440,6 +1479,12 @@ function crearCentro() {
             ${crearLadoDerecho()}
         </div>
     `;
+    activarClicksDuenosPartidos(
+    bracketContainer,
+    participantes,
+    estados,
+    partidos
+);
 }
 
 function normalizarNombreEquipo(nombre) {
