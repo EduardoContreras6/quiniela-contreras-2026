@@ -295,6 +295,183 @@ function calcularEstadisticasEquipos(partidos) {
     return estadisticas;
 }
 
+const codigosEquipos = {
+    "Argentina": "AR",
+    "Arabia Saudita": "SA",
+    "Argelia": "DZ",
+    "Australia": "AU",
+    "Austria": "AT",
+    "Belgica": "BE",
+    "Bosnia y Herzegovina": "BA",
+    "Brasil": "BR",
+    "Cabo Verde": "CV",
+    "Canada": "CA",
+    "Colombia": "CO",
+    "Republica Democratica del Congo": "CD",
+    "Corea del Sur": "KR",
+    "Costa de Marfil": "CI",
+    "Croacia": "HR",
+    "Curazao": "CW",
+    "Ecuador": "EC",
+    "Egipto": "EG",
+    "Escocia": "SCO",
+    "España": "ES",
+    "Estados Unidos": "USA",
+    "Francia": "FR",
+    "Ghana": "GH",
+    "Haiti": "HT",
+    "Inglaterra": "ENG",
+    "Irak": "IQ",
+    "Iran": "IR",
+    "Japon": "JP",
+    "Jordania": "JO",
+    "Marruecos": "MA",
+    "Mexico": "MX",
+    "Noruega": "NO",
+    "Nueva Zelanda": "NZ",
+    "Paises Bajos": "NL",
+    "Panama": "PA",
+    "Paraguay": "PY",
+    "Portugal": "PT",
+    "Qatar": "QA",
+    "Republica Checa": "CZ",
+    "Senegal": "SN",
+    "Sudafrica": "ZA",
+    "Suecia": "SE",
+    "Suiza": "CH",
+    "Tunez": "TN",
+    "Turquia": "TR",
+    "Uruguay": "UY",
+    "Uzbekistan": "UZ",
+    "Alemania": "DE"
+};
+
+function codigoEquipo(equipo) {
+    return codigosEquipos[equipo] || equipo.slice(0, 3).toUpperCase();
+}
+
+function fechaMexicoClave(fechaISO) {
+    return new Intl.DateTimeFormat("en-CA", {
+        timeZone: "America/Mexico_City",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+    }).format(new Date(fechaISO));
+}
+
+function horaMexicoCorta(fechaISO) {
+    return new Date(fechaISO)
+        .toLocaleTimeString("es-MX", {
+            timeZone: "America/Mexico_City",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true
+        })
+        .replace("a. m.", "a.m.")
+        .replace("p. m.", "p.m.")
+        .replace("a. m.", "a.m.")
+        .replace("p. m.", "p.m.");
+}
+
+function esFaseFinalPartido(fase) {
+    return [
+        "Dieciseisavos",
+        "Octavos",
+        "Cuartos",
+        "Semifinales",
+        "Final",
+        "Tercer lugar"
+    ].includes(fase);
+}
+
+function irASeccionPartido(partido) {
+
+    const esFinal = esFaseFinalPartido(partido.fase);
+
+    const detalle = document.getElementById(
+        esFinal ? "fase-final-detalle" : "fase-grupos-detalle"
+    );
+
+    const destino = document.getElementById(
+        esFinal ? "bracket-container" : "grupos-container"
+    );
+
+    if (detalle) {
+        detalle.open = true;
+    }
+
+    if (destino) {
+        destino.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
+}
+
+function renderizarPartidosHoyHero(partidos) {
+
+    const contenedor = document.getElementById("partidos-hoy-hero");
+
+    if (!contenedor) return;
+
+    const hoyMexico = fechaMexicoClave(new Date());
+
+    const partidosHoy = partidos
+        .filter(partido =>
+            fechaMexicoClave(partido.fecha) === hoyMexico
+        )
+        .sort((a, b) =>
+            new Date(a.fecha) - new Date(b.fecha)
+        );
+
+    if (partidosHoy.length === 0) {
+        contenedor.innerHTML = `
+            <div class="sin-partidos-hoy">
+                No hay partidos hoy
+            </div>
+        `;
+        return;
+    }
+
+    contenedor.innerHTML = `
+        <div class="partidos-hoy-lista">
+            ${partidosHoy.map((partido, index) => `
+                <button class="partido-hoy-card" data-index="${index}" type="button">
+
+                    <div class="partido-hoy-equipos">
+                        <span>${banderas[partido.local] || "🏳️"} ${codigoEquipo(partido.local)}</span>
+                        <strong>vs</strong>
+                        <span>${banderas[partido.visitante] || "🏳️"} ${codigoEquipo(partido.visitante)}</span>
+                    </div>
+
+                    <div class="partido-hoy-hora">
+                        ${horaMexicoCorta(partido.fecha)}
+                    </div>
+
+                </button>
+            `).join("")}
+        </div>
+    `;
+
+    contenedor
+        .querySelectorAll(".partido-hoy-card")
+        .forEach(boton => {
+
+            boton.addEventListener("click", () => {
+
+                const index = Number(
+                    boton.dataset.index
+                );
+
+                irASeccionPartido(
+                    partidosHoy[index]
+                );
+
+            });
+
+        });
+}
+
 async function cargarParticipantes() {
 
     const response = await fetch("assets/data/participantes.json");
@@ -319,6 +496,7 @@ const partidos = aplicarTransmisiones(
 
    renderizarFaseGrupos(partidos, participantes);
    renderizarBracket(partidos, participantes);
+    renderizarPartidosHoyHero(partidos);
 
     participantes.sort((a, b) =>
         a.nombre.localeCompare(
