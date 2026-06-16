@@ -541,6 +541,7 @@ let cerrandoPorBotonAtras = false;
 
 function seccionesDetalle() {
     return [
+        document.getElementById("ranking-detalle"),
         document.getElementById("fase-grupos-detalle"),
         document.getElementById("fase-final-detalle")
     ].filter(Boolean);
