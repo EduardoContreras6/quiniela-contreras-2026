@@ -512,6 +512,61 @@ function renderizarPartidosHoyHero(partidos) {
         });
 }
 
+function abrirModalParticipante(persona, estados, partidos) {
+
+    const foto = persona.foto
+        ? `<img src="assets/fotos/${persona.foto}"
+               style="width:120px;height:120px;border-radius:50%;object-fit:cover;">`
+        : "";
+
+    const equipos = persona.equipos
+        .map(e => {
+
+            const estado = estados[e] || "vivo";
+
+            return `
+                <div class="equipo ${estado}">
+                    ${banderas[e] || "🏳️"} ${nombrePais(e)}
+                </div>
+            `;
+
+        })
+        .join("");
+
+    const resumenParticipante = `
+        <div class="modal-resumen-linea">
+            <span>⭐ <strong>${persona.puntos}</strong> puntos</span>
+            <span class="separador-modal">·</span>
+            <span>⚽ <strong>${persona.golesFavor}</strong> goles a favor</span>
+        </div>
+    `;
+
+    const proximosPartidosHTML = crearHTMLProximosPartidos(
+        persona,
+        partidos
+    );
+
+    document.getElementById("modal-body").innerHTML = `
+        <div style="text-align:center">
+
+            ${foto}
+
+            <h2>${persona.nombre}</h2>
+
+            <div class="modal-equipos">
+                ${equipos}
+            </div>
+
+            ${resumenParticipante}
+
+            ${proximosPartidosHTML}
+
+        </div>
+    `;
+
+    document.getElementById("modal").style.display = "block";
+}
+
 async function cargarParticipantes() {
 
     const response = await fetch("assets/data/participantes.json");
@@ -718,70 +773,25 @@ item.innerHTML = `
 `;
 
 item.addEventListener("click", () => {
-
-    const foto = persona.foto
-        ? `<img src="assets/fotos/${persona.foto}"
-               style="width:120px;height:120px;border-radius:50%;object-fit:cover;">`
-        : "";
-
-    const equipos = persona.equipos
-        .map(e => {
-
-            const estado = estados[e] || "vivo";
-
-            return `
-                <div class="equipo ${estado}">
-                    ${banderas[e] || "🏳️"} ${nombrePais(e)}
-                </div>
-            `;
-
-        })
-        .join("");
-
-const resumenParticipante = `
-    <div class="modal-resumen-linea">
-        <span>⭐ <strong>${persona.puntos}</strong> puntos</span>
-        <span class="separador-modal">·</span>
-        <span>⚽ <strong>${persona.golesFavor}</strong> goles a favor</span>
-    </div>
-`;
-
-    const proximosPartidosHTML = crearHTMLProximosPartidos(
-        persona,
-        partidos
-    );
-
-    document.getElementById("modal-body").innerHTML = `
-        <div style="text-align:center">
-
-            ${foto}
-
-            <h2>${persona.nombre}</h2>
-
-            <div class="modal-equipos">
-                ${equipos}
-            </div>
-
-            ${resumenParticipante}
-
-            ${proximosPartidosHTML}
-
-        </div>
-    `;
-
-    document.getElementById("modal").style.display = "block";
-
+    abrirModalParticipante(persona, estados, partidos);
 });
 
         rankingContainer.appendChild(item);
 
     });
 
-    actualizarPodio(ranking, campeon, subcampeon, tercerLugar);
+    actualizarPodio(
+    ranking,
+    campeon,
+    subcampeon,
+    tercerLugar,
+    estados,
+    partidos
+);
     
 }
 
-function actualizarPodio(ranking, campeon, subcampeon, tercerLugar) {
+function actualizarPodio(ranking, campeon, subcampeon, tercerLugar, estados, partidos) {
 
     const primero = ranking.find(persona => persona.tieneCampeon) || ranking[0];
     const segundo = ranking.find(persona => persona.tieneSubcampeon) || ranking[1];
@@ -826,6 +836,38 @@ function actualizarPodio(ranking, campeon, subcampeon, tercerLugar) {
                 <small>${etiqueta}</small>
             </div>
         `;
+        const tarjetasPodio = [
+    {
+        id: "primero",
+        persona: primero
+    },
+    {
+        id: "segundo",
+        persona: segundo
+    },
+    {
+        id: "tercero",
+        persona: tercero
+    }
+];
+
+tarjetasPodio.forEach(item => {
+
+    const elemento = document.getElementById(item.id);
+
+    if (!elemento || !item.persona) return;
+
+    elemento.style.cursor = "pointer";
+
+    elemento.onclick = () => {
+        abrirModalParticipante(
+            item.persona,
+            estados,
+            partidos
+        );
+    };
+
+});
     }
 
     document.getElementById("primero").innerHTML =
