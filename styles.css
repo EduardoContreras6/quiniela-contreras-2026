@@ -1574,3 +1574,46 @@ body{
         margin-bottom:6px;
     }
 }
+/* Ajuste compacto del encabezado */
+.hero h1{
+    margin-bottom:2px !important;
+    line-height:1 !important;
+}
+
+.hero .subtitle{
+    font-weight:800 !important;
+    opacity:1 !important;
+    margin-top:0 !important;
+    margin-bottom:2px !important;
+    line-height:1.05 !important;
+}
+
+.hero .subsubtitle{
+    margin-top:0 !important;
+    margin-bottom:6px !important;
+    line-height:1.05 !important;
+}
+
+.partidos-hoy-hero{
+    margin-top:4px !important;
+}
+
+@media(max-width:768px){
+    .hero h1{
+        margin-bottom:1px !important;
+    }
+
+    .hero .subtitle{
+        font-size:.95rem !important;
+        margin-bottom:1px !important;
+    }
+
+    .hero .subsubtitle{
+        font-size:.68rem !important;
+        margin-bottom:5px !important;
+    }
+
+    .partidos-hoy-hero{
+        margin-top:2px !important;
+    }
+}
