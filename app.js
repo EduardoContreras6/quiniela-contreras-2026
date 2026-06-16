@@ -392,7 +392,7 @@ function irASeccionPartido(partido) {
         esFinal ? "fase-final-detalle" : "fase-grupos-detalle"
     );
 
-    const destino = document.getElementById(
+    const contenedor = document.getElementById(
         esFinal ? "bracket-container" : "grupos-container"
     );
 
@@ -400,12 +400,52 @@ function irASeccionPartido(partido) {
         detalle.open = true;
     }
 
-    if (destino) {
-        destino.scrollIntoView({
+    const idPartido = crearIdPartido(partido);
+
+    setTimeout(() => {
+
+        const elementoPartido = document.getElementById(idPartido);
+
+        if (!elementoPartido) {
+            if (contenedor) {
+                contenedor.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            }
+
+            return;
+        }
+
+        elementoPartido.scrollIntoView({
             behavior: "smooth",
-            block: "start"
+            block: "center",
+            inline: "center"
         });
-    }
+
+        elementoPartido.classList.add("partido-destacado");
+
+        setTimeout(() => {
+            elementoPartido.classList.remove("partido-destacado");
+        }, 2500);
+
+    }, 250);
+}
+
+function textoSeguroId(texto) {
+    return texto
+        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .toLowerCase();
+}
+
+function crearIdPartido(partido) {
+    return `partido-${textoSeguroId(
+        `${partido.fase}-${partido.local}-${partido.visitante}-${partido.fecha}`
+    )}`;
 }
 
 function renderizarPartidosHoyHero(partidos) {
@@ -998,7 +1038,7 @@ function renderizarFaseGrupos(partidos, participantes) {
             .toUpperCase();
 
         return `
-            <div class="grupo-partido">
+            <div class="grupo-partido" id="${crearIdPartido(partido)}">
 
                 ${crearEquipoGrupo(partido.local)}
 
@@ -1134,7 +1174,7 @@ function renderizarBracket(partidos, participantes) {
             .toUpperCase();
 
         return `
-            <div class="bracket-match ${rondaClase}" style="${estiloGrid}">
+    <div id="${crearIdPartido(partido)}" class="bracket-match ${rondaClase}" style="${estiloGrid}">
                 <span class="bracket-connector-in"></span>
                 <span class="bracket-connector-out"></span>
                 <span class="bracket-connector-vertical"></span>
