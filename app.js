@@ -1042,6 +1042,8 @@ function obtenerProximosPartidos(equiposPersona, partidos) {
 
 function obtenerMarcadorPartido(partido) {
 
+    const estado = partido.estado || "programado";
+
     const tieneGoles =
         partido.golesLocal !== null &&
         partido.golesLocal !== undefined &&
@@ -1052,10 +1054,8 @@ function obtenerMarcadorPartido(partido) {
         return `${partido.golesLocal} - ${partido.golesVisitante}`;
     }
 
-    const estado = partido.estado || "programado";
-
     if (estado === "en-vivo") {
-        return "-";
+        return "0 - 0";
     }
 
     return "vs";
@@ -1211,10 +1211,7 @@ function renderizarFaseGrupos(partidos, participantes, estados) {
 
         const estado = partido.estado || "programado";
 
-        const marcador =
-            estado === "finalizado" || estado === "en-vivo"
-                ? `${partido.golesLocal} - ${partido.golesVisitante}`
-                : "vs";
+        const marcador = obtenerMarcadorPartido(partido);
 
         const textoEstado = estado
             .replace("-", " ")
@@ -1353,10 +1350,7 @@ function renderizarBracket(partidos, participantes, estados) {
 
         const estado = partido.estado || "programado";
 
-        const marcador =
-            estado === "finalizado" || estado === "en-vivo"
-                ? `${partido.golesLocal} - ${partido.golesVisitante}`
-                : "vs";
+        const marcador = obtenerMarcadorPartido(partido);
 
         const textoEstado = estado
             .replace("-", " ")
