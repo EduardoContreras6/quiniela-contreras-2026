@@ -1761,3 +1761,13 @@ body{
         margin-bottom:14px !important;
     }
 }
+.dueno-clickable{
+    cursor:pointer;
+    transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+
+.dueno-clickable:hover{
+    transform:scale(1.12);
+    border-color:#facc15 !important;
+    box-shadow:0 0 12px rgba(250,204,21,.6);
+}
