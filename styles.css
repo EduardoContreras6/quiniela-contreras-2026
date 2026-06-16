@@ -1655,3 +1655,9 @@ body{
         margin-bottom:6px !important;
     }
 }
+.partido-destacado{
+    outline:3px solid #facc15 !important;
+    box-shadow:0 0 22px rgba(250,204,21,.75) !important;
+    transform:scale(1.02);
+    transition:all .25s ease;
+}
