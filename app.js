@@ -1829,6 +1829,156 @@ function calcularEstadosAutomaticos(partidos, estadosManual) {
 
     const estados = { ...estadosManual };
 
+    const grupos = [
+        "Grupo A",
+        "Grupo B",
+        "Grupo C",
+        "Grupo D",
+        "Grupo E",
+        "Grupo F",
+        "Grupo G",
+        "Grupo H",
+        "Grupo I",
+        "Grupo J",
+        "Grupo K",
+        "Grupo L"
+    ];
+
+    function tieneMarcador(partido) {
+        return partido.golesLocal !== null &&
+            partido.golesLocal !== undefined &&
+            partido.golesVisitante !== null &&
+            partido.golesVisitante !== undefined;
+    }
+
+    function crearRegistroEquipo(equipo) {
+        return {
+            equipo: equipo,
+            puntos: 0,
+            jugados: 0,
+            ganados: 0,
+            empatados: 0,
+            perdidos: 0,
+            golesFavor: 0,
+            golesContra: 0,
+            diferencia: 0
+        };
+    }
+
+    function ordenarTabla(a, b) {
+        if (b.puntos !== a.puntos) return b.puntos - a.puntos;
+        if (b.diferencia !== a.diferencia) return b.diferencia - a.diferencia;
+        if (b.golesFavor !== a.golesFavor) return b.golesFavor - a.golesFavor;
+
+        return a.equipo.localeCompare(
+            b.equipo,
+            "es",
+            { sensitivity: "base" }
+        );
+    }
+
+    const terceros = [];
+    let gruposCompletos = 0;
+
+    grupos.forEach(grupo => {
+
+        const partidosGrupo = partidos.filter(partido =>
+            partido.fase === grupo
+        );
+
+        if (partidosGrupo.length === 0) return;
+
+        const grupoCompleto = partidosGrupo.every(partido =>
+            partido.estado === "finalizado" && tieneMarcador(partido)
+        );
+
+        if (!grupoCompleto) return;
+
+        gruposCompletos++;
+
+        const tabla = {};
+
+        partidosGrupo.forEach(partido => {
+
+            if (!tabla[partido.local]) {
+                tabla[partido.local] = crearRegistroEquipo(partido.local);
+            }
+
+            if (!tabla[partido.visitante]) {
+                tabla[partido.visitante] = crearRegistroEquipo(partido.visitante);
+            }
+
+            const local = tabla[partido.local];
+            const visitante = tabla[partido.visitante];
+
+            const golesLocal = Number(partido.golesLocal);
+            const golesVisitante = Number(partido.golesVisitante);
+
+            local.jugados++;
+            visitante.jugados++;
+
+            local.golesFavor += golesLocal;
+            local.golesContra += golesVisitante;
+
+            visitante.golesFavor += golesVisitante;
+            visitante.golesContra += golesLocal;
+
+            if (golesLocal > golesVisitante) {
+                local.puntos += 3;
+                local.ganados++;
+                visitante.perdidos++;
+            } else if (golesVisitante > golesLocal) {
+                visitante.puntos += 3;
+                visitante.ganados++;
+                local.perdidos++;
+            } else {
+                local.puntos += 1;
+                visitante.puntos += 1;
+                local.empatados++;
+                visitante.empatados++;
+            }
+
+        });
+
+        const posiciones = Object.values(tabla).map(item => ({
+            ...item,
+            diferencia: item.golesFavor - item.golesContra
+        })).sort(ordenarTabla);
+
+        posiciones.forEach(item => {
+            estados[item.equipo] = "eliminado";
+        });
+
+        if (posiciones[0]) estados[posiciones[0].equipo] = "vivo";
+        if (posiciones[1]) estados[posiciones[1].equipo] = "vivo";
+
+        if (posiciones[2]) {
+            terceros.push(posiciones[2]);
+        }
+
+    });
+
+    if (gruposCompletos === grupos.length) {
+
+        const mejoresTerceros = terceros
+            .sort(ordenarTabla)
+            .slice(0, 8)
+            .map(item => item.equipo);
+
+        terceros.forEach(item => {
+            estados[item.equipo] = mejoresTerceros.includes(item.equipo)
+                ? "vivo"
+                : "eliminado";
+        });
+
+    } else {
+
+        terceros.forEach(item => {
+            estados[item.equipo] = "vivo";
+        });
+
+    }
+
     const fasesEliminacion = [
         "Dieciseisavos",
         "Octavos",
@@ -1841,7 +1991,8 @@ function calcularEstadosAutomaticos(partidos, estadosManual) {
     const partidosEliminacion = partidos
         .filter(partido =>
             fasesEliminacion.includes(partido.fase) &&
-            partido.estado === "finalizado"
+            partido.estado === "finalizado" &&
+            tieneMarcador(partido)
         )
         .sort((a, b) =>
             new Date(a.fecha) - new Date(b.fecha)
